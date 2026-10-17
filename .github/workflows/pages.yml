@@ -1,0 +1,68 @@
+name: Publicar sitio
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install numpy scipy pytest
+      - run: python -m pytest -q
+
+  build:
+    needs: test
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Dependencias del sistema
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            ffmpeg libcairo2-dev libpango1.0-dev pkg-config \
+            texlive-latex-base texlive-latex-extra texlive-fonts-recommended dvisvgm \
+            fonts-inter fonts-jetbrains-mono
+          fc-cache -f
+      - run: pip install -r requirements.txt
+      - name: Cache de videos
+        uses: actions/cache@v4
+        with:
+          path: media
+          key: manim-${{ hashFiles('animations/**', 'physics/**', 'content/**', 'manim.cfg') }}
+      - name: Renderizar animaciones
+        run: python scripts/render_all.py
+      - name: Construir sitio
+        run: python scripts/build_site.py
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
