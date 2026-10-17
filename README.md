@@ -37,15 +37,18 @@ La meta es cubrir los volúmenes 1 y 2. Los números que muestran los videos y e
 
 ## Estado de cobertura
 
-Cinco temas publicados. La lista completa de los volúmenes 1 y 2 está en [`docs/ROADMAP.md`](docs/ROADMAP.md).
+Los 50 temas del índice de los volúmenes 1 y 2 están publicados, con dos escenas por tema (100 animaciones). La lista por capítulo, con sus conceptos, está en [`docs/ROADMAP.md`](docs/ROADMAP.md).
 
-| Tema | Animaciones | Métodos numéricos |
+| Parte | Temas | Ejemplos de métodos numéricos |
 | --- | --- | --- |
-| Medición | Análisis dimensional del péndulo; propagación de incertidumbre | Mínimos cuadrados, RK4 [4][5], Monte Carlo [6] |
-| Movimiento en una dimensión | Velocidad instantánea y área bajo v(t); aceleración constante y caída libre | Secantes, diferencias centradas, trapecio, Euler y RK4 |
-| Vectores | Suma de vectores; producto escalar y vectorial | Componentes, Monte Carlo, invarianza por rotación |
-| Movimiento en dos y tres dimensiones | Proyectiles; movimiento circular uniforme | RK4 con refinamiento del impacto, sección áurea [7], diferencias finitas |
-| Fuerza y leyes de Newton | Equilibrio con dos cables; plano inclinado con polea | Sistema lineal, RK4, bisección |
+| Vol. 1. Mecánica clásica | Capítulos 1 a 17: medición, vectores, cinemática, leyes de Newton, energía, colisiones, rotación, gravitación, fluidos | RK4 y Euler [4][5], Verlet, Monte Carlo [6], sección áurea [7], Simpson, bisección, sistemas lineales |
+| Vol. 1. Oscilaciones y ondas | Capítulos 18 a 21: oscilaciones, ondas, sonido, relatividad especial | Diferencias finitas, análisis de Fourier, Doppler, transformaciones de Lorentz |
+| Vol. 1. Termodinámica | Capítulos 22 a 25: temperatura, primera ley, teoría cinética, entropía | Monte Carlo de gases, Metropolis, integración de ciclos |
+| Vol. 2. Electromagnetismo | Capítulos 1 a 14: Coulomb, Gauss, potencial, circuitos, campo magnético, inducción, Maxwell | Relajación SOR, Biot-Savart numérico, Boris, diferencias finitas de Yee (FDTD), detección síncrona |
+| Vol. 2. Óptica | Capítulos 15 a 18: Snell y Fermat, lentes, interferencia, difracción y polarización | Trazado exacto de rayos, matrices ABCD y de transferencia, suma coherente, cálculo de Jones |
+| Vol. 2. Física cuántica y moderna | Capítulos 19 a 25: cuerpo negro, ondas de materia, Schrödinger, hidrógeno, bandas, núcleo, cosmología | Diagonalización de hamiltonianos, RK4 de la ecuación estacionaria, FFT, Monte Carlo, ondas planas |
+
+La numeración sigue el orden del índice del proyecto, no necesariamente el de cada edición del libro. Cada escena enfrenta una solución analítica con un método numérico independiente y publica las dos columnas con su error.
 
 El análisis dimensional sigue el planteamiento de Buckingham [8] y la propagación de incertidumbre, la guía GUM [9].
 

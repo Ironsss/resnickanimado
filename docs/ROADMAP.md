@@ -50,7 +50,7 @@ Avance: 25 de 25 capítulos.
 
 ## Volumen 2: Electromagnetismo, óptica y física cuántica
 
-Avance: 14 de 25 capítulos.
+Avance: 25 de 25 capítulos.
 
 
 ### Electromagnetismo
@@ -76,22 +76,22 @@ Avance: 14 de 25 capítulos.
 
 | Cap. | Tema | Conceptos | Estado |
 | --- | --- | --- | --- |
-| 15 | Naturaleza y propagación de la luz | Velocidad de la luz, reflexión, refracción, dispersión | Planificado |
-| 16 | Óptica geométrica: espejos y lentes | Formación de imágenes con espejos y lentes delgadas | Planificado |
-| 17 | Interferencia | Dos fuentes, experimento de Young, películas delgadas, interferómetros | Planificado |
-| 18 | Difracción y polarización | Difracción de Fraunhofer, rejillas, polarización | Planificado |
+| 15 | Naturaleza y propagación de la luz | Velocidad de la luz, reflexión, refracción, dispersión | Publicado |
+| 16 | Óptica geométrica: espejos y lentes | Formación de imágenes con espejos y lentes delgadas | Publicado |
+| 17 | Interferencia | Dos fuentes, experimento de Young, películas delgadas, interferómetros | Publicado |
+| 18 | Difracción y polarización | Difracción de Fraunhofer, rejillas, polarización | Publicado |
 
 ### Física cuántica y moderna
 
 | Cap. | Tema | Conceptos | Estado |
 | --- | --- | --- | --- |
-| 19 | Fotones y naturaleza ondulatoria de la luz | Cuerpo negro, efecto fotoeléctrico, efecto Compton | Planificado |
-| 20 | Ondas de materia | Hipótesis de De Broglie, principio de incertidumbre | Planificado |
-| 21 | Ecuación de Schrödinger | Funciones de onda, pozos de potencial, tunelamiento | Planificado |
-| 22 | Estructura atómica | Modelo de Bohr, átomo de hidrógeno, niveles de energía | Planificado |
-| 23 | Conducción eléctrica en sólidos | Teoría de bandas, semiconductores, uniones p-n | Planificado |
-| 24 | Física nuclear | Estructura del núcleo, radiactividad, fisión y fusión | Planificado |
-| 25 | Partículas elementales y cosmología | Quarks, leptones, fuerzas fundamentales, Big Bang | Planificado |
+| 19 | Fotones y naturaleza ondulatoria de la luz | Cuerpo negro, efecto fotoeléctrico, efecto Compton | Publicado |
+| 20 | Ondas de materia | Hipótesis de De Broglie, principio de incertidumbre | Publicado |
+| 21 | Ecuación de Schrödinger | Funciones de onda, pozos de potencial, tunelamiento | Publicado |
+| 22 | Estructura atómica | Modelo de Bohr, átomo de hidrógeno, niveles de energía | Publicado |
+| 23 | Conducción eléctrica en sólidos | Teoría de bandas, semiconductores, uniones p-n | Publicado |
+| 24 | Física nuclear | Estructura del núcleo, radiactividad, fisión y fusión | Publicado |
+| 25 | Partículas elementales y cosmología | Quarks, leptones, fuerzas fundamentales, Big Bang | Publicado |
 
 ## Criterios de entrada para cada tema nuevo
 
