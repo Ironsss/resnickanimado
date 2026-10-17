@@ -164,7 +164,8 @@ def polyline(axes: Axes, xs, ys, color: str = NUMERIC, width: float = 3.5) -> VM
 def axes_block(xr, yr, w, h, pos, xticks=(), yticks=(), xlabel="", ylabel="", fmt="{:g}"):
     """Ejes con marcas numericas y rotulos. Devuelve (axes, grupo_decoracion)."""
     def _step(rng, ticks):
-        return float(ticks[1] - ticks[0]) if len(ticks) >= 2 else (rng[1] - rng[0]) / 5.0
+        st = float(ticks[1] - ticks[0]) if len(ticks) >= 2 else 0.0
+        return st if st > 0 else (rng[1] - rng[0]) / 5.0
 
     ax = make_axes([xr[0], xr[1]], [yr[0], yr[1]], w, h, _step(xr, xticks), _step(yr, yticks), numbers=False).move_to(pos)
     deco = VGroup()
@@ -243,3 +244,49 @@ def _phase_methods(cls):
 
 
 _phase_methods(PhysicsScene)
+
+
+# ------------------------------------------------------------ simbolos de circuito
+def wire(*pts, color: str = FG, width: float = 3) -> VMobject:
+    m = VMobject(color=color, stroke_width=width)
+    m.set_points_as_corners([np.array([p[0], p[1], 0.0]) for p in pts])
+    return m
+
+
+def resistor_symbol(a, b, color: str = FG, teeth: int = 6, amp: float = 0.14) -> VMobject:
+    a, b = np.array([a[0], a[1], 0.0]), np.array([b[0], b[1], 0.0])
+    d = b - a
+    ln = np.linalg.norm(d)
+    u = d / ln
+    n = np.array([-u[1], u[0], 0.0])
+    lead = 0.18 * ln
+    pts = [a, a + u * lead]
+    body = ln - 2 * lead
+    for k in range(teeth):
+        pts.append(a + u * (lead + body * (k + 0.5) / teeth) + n * amp * (1 if k % 2 == 0 else -1))
+    pts += [a + u * (ln - lead), b]
+    m = VMobject(color=color, stroke_width=3)
+    m.set_points_as_corners(pts)
+    return m
+
+
+def capacitor_symbol(center, vertical: bool = False, size: float = 0.35, color: str = FG, gap: float = 0.11) -> VGroup:
+    c = np.array([center[0], center[1], 0.0])
+    if vertical:
+        p1 = Line(c + np.array([-size, gap, 0]), c + np.array([size, gap, 0]), color=color, stroke_width=4)
+        p2 = Line(c + np.array([-size, -gap, 0]), c + np.array([size, -gap, 0]), color=color, stroke_width=4)
+    else:
+        p1 = Line(c + np.array([-gap, -size, 0]), c + np.array([-gap, size, 0]), color=color, stroke_width=4)
+        p2 = Line(c + np.array([gap, -size, 0]), c + np.array([gap, size, 0]), color=color, stroke_width=4)
+    return VGroup(p1, p2)
+
+
+def battery_symbol(center, vertical: bool = True, size: float = 0.3, color: str = FG) -> VGroup:
+    c = np.array([center[0], center[1], 0.0])
+    if vertical:
+        long_ = Line(c + np.array([-size, 0.1, 0]), c + np.array([size, 0.1, 0]), color=color, stroke_width=4)
+        short = Line(c + np.array([-size * 0.55, -0.1, 0]), c + np.array([size * 0.55, -0.1, 0]), color=color, stroke_width=6)
+    else:
+        long_ = Line(c + np.array([-0.1, -size, 0]), c + np.array([-0.1, size, 0]), color=color, stroke_width=4)
+        short = Line(c + np.array([0.1, -size * 0.55, 0]), c + np.array([0.1, size * 0.55, 0]), color=color, stroke_width=6)
+    return VGroup(long_, short)

@@ -50,20 +50,20 @@ Avance: 25 de 25 capítulos.
 
 ## Volumen 2: Electromagnetismo, óptica y física cuántica
 
-Avance: 0 de 25 capítulos.
+Avance: 7 de 25 capítulos.
 
 
 ### Electromagnetismo
 
 | Cap. | Tema | Conceptos | Estado |
 | --- | --- | --- | --- |
-| 1 | Carga eléctrica y ley de Coulomb | Carga, aislantes y conductores, fuerza electrostática | Planificado |
-| 2 | El campo eléctrico | Líneas de campo, distribuciones continuas | Planificado |
-| 3 | Ley de Gauss | Flujo eléctrico, simetrías, conductores en equilibrio | Planificado |
-| 4 | Potencial eléctrico | Energía potencial, diferencia de potencial, cálculo del campo | Planificado |
-| 5 | Capacitancia y dieléctricos | Capacitores, serie y paralelo, energía almacenada | Planificado |
-| 6 | Corriente y resistencia | Ley de Ohm, modelos de conducción | Planificado |
-| 7 | Circuitos de corriente directa | Leyes de Kirchhoff, circuitos RC, fem | Planificado |
+| 1 | Carga eléctrica y ley de Coulomb | Carga, aislantes y conductores, fuerza electrostática | Publicado |
+| 2 | El campo eléctrico | Líneas de campo, distribuciones continuas | Publicado |
+| 3 | Ley de Gauss | Flujo eléctrico, simetrías, conductores en equilibrio | Publicado |
+| 4 | Potencial eléctrico | Energía potencial, diferencia de potencial, cálculo del campo | Publicado |
+| 5 | Capacitancia y dieléctricos | Capacitores, serie y paralelo, energía almacenada | Publicado |
+| 6 | Corriente y resistencia | Ley de Ohm, modelos de conducción | Publicado |
+| 7 | Circuitos de corriente directa | Leyes de Kirchhoff, circuitos RC, fem | Publicado |
 | 8 | El campo magnético | Fuerza magnética, efecto Hall, movimiento de cargas | Planificado |
 | 9 | Campo magnético de una corriente | Ley de Biot-Savart, ley de Ampère | Planificado |
 | 10 | Ley de inducción de Faraday | Flujo magnético, ley de Lenz, fem inducida | Planificado |
