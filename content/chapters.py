@@ -10,8 +10,8 @@ import numpy as np
 
 from content.model import Chapter, Row, Scene
 from physics import ch01_measurement as c1
-from physics import ch02_motion_1d as c2
-from physics import ch03_vectors as c3
+from physics import ch03_motion_1d as m1d
+from physics import ch02_vectors as vec
 from physics import ch04_motion_2d as c4
 from physics import ch05_newton as c5
 
@@ -92,20 +92,21 @@ def _ch1() -> Chapter:
             "Análisis dimensional", "Propagación de incertidumbre",
         ],
         scenes=[s1, s2],
+        part="Mecánica clásica",
     )
 
 
-# ---------------------------------------------------------------- capitulo 2
-def _ch2() -> Chapter:
+# ---------------------------------------------------------------- capitulo 3 (movimiento 1D)
+def _ch3m() -> Chapter:
     t0 = 2.0
-    sec = c2.secant_table(t0)[-1]
-    a_fd = c2.central_second_difference(t0, 1e-2)
-    disp = c2.displacement_from_velocity(0.0, 4.0, 32)
-    summ = c2.free_fall_summary()
-    tt, yy = c2.free_fall_numeric(2000, "rk4", t1=2.5)
-    y3_an = float(c2.free_fall_analytic(3.0)[0])
-    y3_rk4 = float(c2.free_fall_numeric(10, "rk4")[1][-1, 0])
-    y3_eu = float(c2.free_fall_numeric(10, "euler")[1][-1, 0])
+    sec = m1d.secant_table(t0)[-1]
+    a_fd = m1d.central_second_difference(t0, 1e-2)
+    disp = m1d.displacement_from_velocity(0.0, 4.0, 32)
+    summ = m1d.free_fall_summary()
+    tt, yy = m1d.free_fall_numeric(2000, "rk4", t1=2.5)
+    y3_an = float(m1d.free_fall_analytic(3.0)[0])
+    y3_rk4 = float(m1d.free_fall_numeric(10, "rk4")[1][-1, 0])
+    y3_eu = float(m1d.free_fall_numeric(10, "euler")[1][-1, 0])
 
     s1 = Scene(
         id="InstantaneousVelocity",
@@ -129,8 +130,8 @@ def _ch2() -> Chapter:
             "la regla del trapecio sobre 32 subintervalos."
         ),
         rows=[
-            Row("Velocidad en t = 2 s", "v(2)", float(c2.v_analytic(t0)), sec["slope"], "m/s", 4),
-            Row("Aceleración en t = 2 s", "a(2)", float(c2.a_analytic(t0)), a_fd, "m/s²", 4),
+            Row("Velocidad en t = 2 s", "v(2)", float(m1d.v_analytic(t0)), sec["slope"], "m/s", 4),
+            Row("Aceleración en t = 2 s", "a(2)", float(m1d.a_analytic(t0)), a_fd, "m/s²", 4),
             Row("Desplazamiento en [0, 4] s", r"\Delta x", disp["exact"], disp["trapezoid"], "m", 4),
         ],
         notes=["La suma de Riemann por la izquierda con 32 rectángulos da "
@@ -169,7 +170,7 @@ def _ch2() -> Chapter:
     )
 
     return Chapter(
-        number=2, slug="ch02", module="ch02_motion_1d", title="Movimiento en una dimensión",
+        number=3, slug="ch03", module="ch03_motion_1d", title="Movimiento en una dimensión",
         summary="Cinemática de la partícula: posición, velocidad y aceleración, con el cálculo diferencial e integral como lenguaje.",
         concepts=[
             "Cinemática de la partícula", "Velocidad media e instantánea",
@@ -177,15 +178,16 @@ def _ch2() -> Chapter:
             "Cuerpos en caída libre", "Aceleración variable e integración",
         ],
         scenes=[s1, s2],
+        part="Mecánica clásica",
     )
 
 
-# ---------------------------------------------------------------- capitulo 3
-def _ch3() -> Chapter:
-    ra, rn = c3.resultant_analytic(), c3.resultant_numeric()
-    pa = c3.products_analytic()
-    area_mc, _, _ = c3.parallelogram_area_monte_carlo()
-    _, _, _, dots = c3.invariance_sweep()
+# ---------------------------------------------------------------- capitulo 2 (vectores)
+def _ch2v() -> Chapter:
+    ra, rn = vec.resultant_analytic(), vec.resultant_numeric()
+    pa = vec.products_analytic()
+    area_mc, _, _ = vec.parallelogram_area_monte_carlo()
+    _, _, _, dots = vec.invariance_sweep()
 
     s1 = Scene(
         id="VectorAddition",
@@ -218,7 +220,7 @@ def _ch3() -> Chapter:
             (r"\left|\vec A\times\vec B\right|=AB\sin\theta=\left|A_xB_y-A_yB_x\right|", "Producto vectorial: área del paralelogramo."),
         ],
         analytic=[
-            (rf"\cos\theta=\dfrac{{11}}{{\sqrt{{17}}\sqrt{{13}}}}\;\Rightarrow\;\theta={c3.angle_between_deg():.2f}^\circ", "El ángulo sale del producto escalar."),
+            (rf"\cos\theta=\dfrac{{11}}{{\sqrt{{17}}\sqrt{{13}}}}\;\Rightarrow\;\theta={vec.angle_between_deg():.2f}^\circ", "El ángulo sale del producto escalar."),
             (r"A_xB_y-A_yB_x=4\cdot3-1\cdot2=10", "Área del paralelogramo."),
         ],
         numeric_method=(
@@ -226,14 +228,14 @@ def _ch3() -> Chapter:
             "de A·B y A×B se comprueba girando el sistema de ejes 360° en pasos de 1°."
         ),
         rows=[
-            Row("Producto escalar", r"\vec A\cdot\vec B", pa["dot_by_angle"], c3.dot(), "", 4),
+            Row("Producto escalar", r"\vec A\cdot\vec B", pa["dot_by_angle"], vec.dot(), "", 4),
             Row("Área del paralelogramo", r"|\vec A\times\vec B|", pa["cross_by_angle"], area_mc, "", 3),
         ],
         notes=[f"Variación máxima de A·B al rotar los ejes: {np.ptp(dots):.1e}."],
     )
 
     return Chapter(
-        number=3, slug="ch03", module="ch03_vectors", title="Vectores",
+        number=2, slug="ch02", module="ch02_vectors", title="Vectores",
         summary="Magnitudes escalares y vectoriales, suma geométrica y analítica, y los dos productos de vectores.",
         concepts=[
             "Escalares y vectores", "Suma geométrica de vectores",
@@ -241,6 +243,7 @@ def _ch3() -> Chapter:
             "Producto escalar", "Producto vectorial",
         ],
         scenes=[s1, s2],
+        part="Mecánica clásica",
     )
 
 
@@ -310,6 +313,7 @@ def _ch4() -> Chapter:
             "Velocidad y aceleración relativas",
         ],
         scenes=[s1, s2],
+        part="Mecánica clásica",
     )
 
 
@@ -384,81 +388,24 @@ def _ch5() -> Chapter:
             "Aplicaciones de las leyes de Newton",
         ],
         scenes=[s1, s2],
+        part="Mecánica clásica",
     )
 
 
+def _core() -> list[Chapter]:
+    return [_ch1(), _ch2v(), _ch3m(), _ch4(), _ch5()]
+
+
 def load_chapters() -> list[Chapter]:
-    return [_ch1(), _ch2(), _ch3(), _ch4(), _ch5()]
+    """Capitulos 1-5 mas todos los modulos `blk_*` del paquete, ordenados por (volumen, numero)."""
+    import importlib
+    import pkgutil
 
+    import content
 
-# Hoja de ruta segun el indice de referencia del proyecto (volumenes 1 y 2).
-# Cada bloque: (parte, [(tema, conceptos, estado)]). Los temas ya implementados figuran como Publicado.
-P, L = "Publicado", "Planificado"
-ROADMAP = [
-    ("Volumen 1", "Mecánica, ondas y termodinámica", [
-        ("Mecánica clásica", [
-            ("Medición", "Sistemas de unidades, patrones de tiempo, longitud y masa", P),
-            ("Vectores", "Suma, componentes, productos escalar y vectorial", P),
-            ("Movimiento en una dimensión", "Posición, velocidad, aceleración y caída libre", P),
-            ("Movimiento en dos y tres dimensiones", "Tiro parabólico y movimiento circular", P),
-            ("Fuerza y leyes de Newton", "Leyes del movimiento y aplicaciones", P),
-            ("Dinámica de la partícula", "Fricción, fuerza centrípeta, dinámica avanzada", L),
-            ("Trabajo y energía", "Trabajo, energía cinética, teorema trabajo-energía", L),
-            ("Conservación de la energía", "Energía potencial, fuerzas conservativas y no conservativas", L),
-            ("Sistemas de partículas", "Centro de masa, ímpetu lineal y su conservación", L),
-            ("Colisiones", "Impulso, colisiones elásticas e inelásticas", L),
-            ("Cinemática rotacional", "Variables rotacionales, velocidad y aceleración angular", L),
-            ("Dinámica rotacional", "Torque, momento de inercia, segunda ley para la rotación", L),
-            ("Momento angular", "Conservación del momento angular, giroscopios", L),
-            ("Equilibrio de cuerpos rígidos", "Condiciones de equilibrio, elasticidad", L),
-            ("Gravitación", "Gravitación universal, leyes de Kepler, movimiento planetario", L),
-            ("Estática de fluidos", "Presión, principios de Pascal y Arquímedes", L),
-            ("Dinámica de fluidos", "Continuidad, ecuación de Bernoulli", L),
-        ]),
-        ("Oscilaciones y ondas", [
-            ("Oscilaciones", "Movimiento armónico simple, péndulos, amortiguamiento y forzamiento", L),
-            ("Movimiento ondulatorio", "Ondas transversales y longitudinales, velocidad y potencia", L),
-            ("Ondas sonoras", "Propagación, efecto Doppler, interferencia, resonancia", L),
-            ("Teoría especial de la relatividad", "Cinemática y dinámica relativistas", L),
-        ]),
-        ("Termodinámica", [
-            ("Temperatura y ley cero", "Escalas de temperatura, expansión térmica", L),
-            ("Primera ley de la termodinámica", "Calor, trabajo, energía interna", L),
-            ("Teoría cinética de los gases", "Presión del gas ideal, temperatura, distribución de velocidades", L),
-            ("Segunda ley y entropía", "Máquinas térmicas, ciclo de Carnot, entropía", L),
-        ]),
-    ]),
-    ("Volumen 2", "Electromagnetismo, óptica y física cuántica", [
-        ("Electromagnetismo", [
-            ("Carga eléctrica y ley de Coulomb", "Carga, aislantes y conductores, fuerza electrostática", L),
-            ("El campo eléctrico", "Líneas de campo, distribuciones continuas", L),
-            ("Ley de Gauss", "Flujo eléctrico, simetrías, conductores en equilibrio", L),
-            ("Potencial eléctrico", "Energía potencial, diferencia de potencial, cálculo del campo", L),
-            ("Capacitancia y dieléctricos", "Capacitores, serie y paralelo, energía almacenada", L),
-            ("Corriente y resistencia", "Ley de Ohm, modelos de conducción", L),
-            ("Circuitos de corriente directa", "Leyes de Kirchhoff, circuitos RC, fem", L),
-            ("El campo magnético", "Fuerza magnética, efecto Hall, movimiento de cargas", L),
-            ("Campo magnético de una corriente", "Ley de Biot-Savart, ley de Ampère", L),
-            ("Ley de inducción de Faraday", "Flujo magnético, ley de Lenz, fem inducida", L),
-            ("Inductancia", "Autoinductancia, circuitos RL, oscilaciones LC", L),
-            ("Propiedades magnéticas de la materia", "Dipolos, dia, para y ferromagnetismo; ley de Gauss del magnetismo", L),
-            ("Circuitos de corriente alterna", "Fasores, circuitos RLC, resonancia, transformadores", L),
-            ("Ecuaciones de Maxwell y ondas electromagnéticas", "Corriente de desplazamiento, espectro, vector de Poynting", L),
-        ]),
-        ("Óptica", [
-            ("Naturaleza y propagación de la luz", "Velocidad de la luz, reflexión, refracción, dispersión", L),
-            ("Óptica geométrica: espejos y lentes", "Formación de imágenes con espejos y lentes delgadas", L),
-            ("Interferencia", "Dos fuentes, experimento de Young, películas delgadas, interferómetros", L),
-            ("Difracción y polarización", "Difracción de Fraunhofer, rejillas, polarización", L),
-        ]),
-        ("Física cuántica y moderna", [
-            ("Fotones y naturaleza ondulatoria de la luz", "Cuerpo negro, efecto fotoeléctrico, efecto Compton", L),
-            ("Ondas de materia", "Hipótesis de De Broglie, principio de incertidumbre", L),
-            ("Ecuación de Schrödinger", "Funciones de onda, pozos de potencial, tunelamiento", L),
-            ("Estructura atómica", "Modelo de Bohr, átomo de hidrógeno, niveles de energía", L),
-            ("Conducción eléctrica en sólidos", "Teoría de bandas, semiconductores, uniones p-n", L),
-            ("Física nuclear", "Estructura del núcleo, radiactividad, fisión y fusión", L),
-            ("Partículas elementales y cosmología", "Quarks, leptones, fuerzas fundamentales, Big Bang", L),
-        ]),
-    ]),
-]
+    chapters = _core()
+    for mod in pkgutil.iter_modules(content.__path__):
+        if mod.name.startswith("blk_"):
+            chapters += importlib.import_module(f"content.{mod.name}").chapters()
+    chapters.sort(key=lambda c: (c.volume, c.number))
+    return chapters

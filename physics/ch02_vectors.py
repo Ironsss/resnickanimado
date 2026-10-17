@@ -1,4 +1,4 @@
-"""Capitulo 3. Vectores."""
+"""Capitulo 2. Vectores."""
 from __future__ import annotations
 
 import numpy as np

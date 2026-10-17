@@ -10,7 +10,7 @@ from manim import (
 from animations.common import (
     ACCENT, ANALYTIC, BORDER, ERROR, FAINT, FG, MUTED, NUMERIC, M, PhysicsScene, T, make_axes, mono_table,
 )
-from physics import ch03_vectors as c3
+from physics import ch02_vectors as vec
 
 
 def vec_arrow(axes, start, end, color, width=4.5):
@@ -20,12 +20,12 @@ def vec_arrow(axes, start, end, color, width=4.5):
 
 
 class VectorAddition(PhysicsScene):
-    chapter_number = 3
+    chapter_number = 2
     chapter_title = "Vectores"
 
     def construct(self):
-        d1, d2 = c3.D1, c3.D2
-        r_an, r_nu = c3.resultant_analytic(), c3.resultant_numeric()
+        d1, d2 = vec.D1, vec.D2
+        r_an, r_nu = vec.resultant_analytic(), vec.resultant_numeric()
 
         # ---------------------------------------------------------- fundamentos
         self.phase("Fundamentos")
@@ -117,14 +117,14 @@ class VectorAddition(PhysicsScene):
 
 
 class VectorProducts(PhysicsScene):
-    chapter_number = 3
+    chapter_number = 2
     chapter_title = "Vectores"
 
     def construct(self):
-        a, b = c3.A, c3.B
-        pa = c3.products_analytic()
-        theta = c3.angle_between_deg()
-        area_mc, pts, inside = c3.parallelogram_area_monte_carlo()
+        a, b = vec.A, vec.B
+        pa = vec.products_analytic()
+        theta = vec.angle_between_deg()
+        area_mc, pts, inside = vec.parallelogram_area_monte_carlo()
 
         # ---------------------------------------------------------- fundamentos
         self.phase("Fundamentos")
@@ -169,10 +169,10 @@ class VectorProducts(PhysicsScene):
         self.play(FadeIn(para), Create(arc), FadeIn(arc_lab), run_time=1.0)
 
         st = VGroup(
-            M(rf"\vec{{A}}\cdot\vec{{B}} = 4(2) + 1(3) = {c3.dot():.0f}", 38),
+            M(rf"\vec{{A}}\cdot\vec{{B}} = 4(2) + 1(3) = {vec.dot():.0f}", 38),
             M(rf"\cos\theta = \dfrac{{11}}{{\sqrt{{17}}\sqrt{{13}}}} \;\Rightarrow\; \theta = {theta:.2f}^\circ", 38, ACCENT),
-            M(rf"A_xB_y - A_yB_x = 4(3) - 1(2) = {c3.cross_z():.0f}", 38),
-            M(rf"\text{{área}} = \left|\vec{{A}}\times\vec{{B}}\right| = {abs(c3.cross_z()):.0f}", 38, ACCENT),
+            M(rf"A_xB_y - A_yB_x = 4(3) - 1(2) = {vec.cross_z():.0f}", 38),
+            M(rf"\text{{área}} = \left|\vec{{A}}\times\vec{{B}}\right| = {abs(vec.cross_z()):.0f}", 38, ACCENT),
             M(rf"AB\sin\theta = {pa['cross_by_angle']:.4f}", 34),
         ).arrange(DOWN, aligned_edge=LEFT, buff=0.3).move_to(RIGHT * 3.2 + DOWN * 0.1)
         self.say("El ángulo sale del producto escalar; el área, de la componente z del producto vectorial.", run_time=0.4)
@@ -188,7 +188,7 @@ class VectorProducts(PhysicsScene):
         for p, ins in zip(pts[:sample], inside[:sample]):
             dots.add(Dot(axes.c2p(*p), radius=0.022, color=NUMERIC if ins else FAINT))
         est = T(f"área ≈ caja · (dentro / total) = {area_mc:.3f}", 19, NUMERIC, mono=True)
-        est2 = T(f"|A × B| = {abs(c3.cross_z()):.3f}      N = 400 000", 19, ANALYTIC, mono=True)
+        est2 = T(f"|A × B| = {abs(vec.cross_z()):.3f}      N = 400 000", 19, ANALYTIC, mono=True)
         out = VGroup(est, est2).arrange(DOWN, aligned_edge=LEFT, buff=0.25).move_to(RIGHT * 3.2 + UP * 0.5)
         how = T("Se lanzan puntos al azar en la caja que\nenvuelve al paralelogramo y se cuenta la\nfracción que cae dentro.", 20, MUTED).move_to(RIGHT * 3.2 + UP * 1.7)
         self.say("Comprobación numérica independiente del área: método de Monte Carlo.", FadeIn(how), run_time=0.8)
@@ -216,7 +216,7 @@ class VectorProducts(PhysicsScene):
 
         def readout():
             p = phi.get_value()
-            ra, rb = c3.rotate_frame(a, p), c3.rotate_frame(b, p)
+            ra, rb = vec.rotate_frame(a, p), vec.rotate_frame(b, p)
             return VGroup(
                 T(f"φ = {np.rad2deg(p):6.1f}°", 20, ACCENT, mono=True),
                 T(f"A' = ({ra[0]:+.3f}, {ra[1]:+.3f})", 20, FG, mono=True),

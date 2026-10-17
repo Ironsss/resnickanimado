@@ -60,9 +60,11 @@ class PhysicsScene(Scene):
 
     chapter_number = 0
     chapter_title = ""
+    volume = 1
 
     def setup(self):
-        kicker = T(f"CAPÍTULO {self.chapter_number:02d}", 15, MUTED, mono=True)
+        label = f"CAPÍTULO {self.chapter_number:02d}" if self.volume == 1 else f"VOLUMEN {self.volume} · CAPÍTULO {self.chapter_number:02d}"
+        kicker = T(label, 15, MUTED, mono=True)
         title = T(self.chapter_title, 22, FG, weight="BOLD")
         head = VGroup(kicker, title).arrange(DOWN, aligned_edge=LEFT, buff=0.08).to_corner(UL, buff=0.5)
         rule_top = Line(LEFT * 6.65, RIGHT * 6.65, stroke_color=BORDER, stroke_width=2).move_to(UP * 2.85)

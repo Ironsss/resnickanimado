@@ -15,7 +15,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from content.chapters import ROADMAP, load_chapters  # noqa: E402
+from content.chapters import load_chapters  # noqa: E402
+from content.index import INDEX, VOLUMES  # noqa: E402
 from content.model import Chapter, Row, Scene  # noqa: E402
 from content.references import REFERENCES  # noqa: E402
 
@@ -75,7 +76,9 @@ def page(title: str, body: str, base: str, description: str, current: str = "") 
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#18181b" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <title>{e(title)}</title>
 <meta name="description" content="{e(description)}">
 <link rel="icon" href="{base}assets/favicon.svg" type="image/svg+xml">
@@ -92,14 +95,24 @@ def page(title: str, body: str, base: str, description: str, current: str = "") 
 <header class="site-header">
   <div class="container">
     <a class="brand" href="{base}index.html">{LOGO}<span>Resnick animado</span></a>
-    <nav class="nav" aria-label="Principal">
-      {nav("index.html#capitulos", "Capítulos", "chapters")}
-      {nav("index.html#metodologia", "Metodología", "method", "hide-sm")}
-      {nav("index.html#hoja-de-ruta", "Hoja de ruta", "roadmap", "hide-sm")}
-      {nav("index.html#fuentes", "Fuentes", "sources", "hide-sm")}
-      <a href="{REPO_URL}">GitHub</a>
+    <div class="header-actions">
+      <nav class="nav" aria-label="Principal">
+        {nav("index.html#capitulos", "Capítulos", "chapters")}
+        {nav("index.html#metodologia", "Metodología", "method")}
+        {nav("index.html#fuentes", "Fuentes", "sources")}
+        <a href="{REPO_URL}">GitHub</a>
+      </nav>
       <button class="btn btn-ghost" id="theme-toggle" type="button" aria-label="Cambiar tema">Tema</button>
-    </nav>
+      <details class="menu">
+        <summary class="btn btn-outline btn-sm" aria-label="Abrir menú">Menú</summary>
+        <div class="menu-panel">
+          <a href="{base}index.html#capitulos">Capítulos</a>
+          <a href="{base}index.html#metodologia">Metodología</a>
+          <a href="{base}index.html#fuentes">Fuentes</a>
+          <a href="{REPO_URL}">GitHub</a>
+        </div>
+      </details>
+    </div>
   </div>
 </header>
 <main>
@@ -123,7 +136,7 @@ def video_block(scene: Scene, chapter: Chapter, base: str, media: dict[str, dict
                 'La animación se genera durante la construcción del sitio y aún no está disponible en esta copia.</div></div>')
     poster = f' poster="{base}media/{scene.id}.jpg"' if info.get("poster") else ""
     dur = fmt_duration(info.get("duration"))
-    return (f'<div class="video-frame"><video controls preload="metadata" playsinline{poster}>'
+    return (f'<div class="video-frame"><video controls preload="none" playsinline{poster}>'
             f'<source src="{base}media/{scene.id}.mp4" type="video/mp4"></video></div>'
             f'<div class="video-caption"><span>{e(scene.title)}</span><span>{dur}</span></div>')
 
@@ -135,11 +148,13 @@ def steps_html(items: list[tuple[str, str]]) -> str:
 
 def rows_html(rows: list[Row]) -> str:
     body = "".join(
-        f"<tr><td>{e(r.label)}</td><td>${e(r.tex)}$</td>"
-        f'<td class="num">{fmt(r.analytic, r.digits)}</td><td class="num">{fmt(r.numeric, r.digits)}</td>'
-        f'<td class="num err">{fmt_err(r.error)}</td><td>{e(r.unit) if r.unit else "&mdash;"}</td></tr>'
+        f'<tr><td data-label="Magnitud">{e(r.label)}</td><td data-label="Símbolo">${e(r.tex)}$</td>'
+        f'<td class="num" data-label="Analítico">{fmt(r.analytic, r.digits)}</td>'
+        f'<td class="num" data-label="Numérico">{fmt(r.numeric, r.digits)}</td>'
+        f'<td class="num err" data-label="Error abs.">{fmt_err(r.error)}</td>'
+        f'<td data-label="Unidad">{e(r.unit) if r.unit else "&mdash;"}</td></tr>'
         for r in rows)
-    return ('<div class="table-wrap"><table><thead><tr><th>Magnitud</th><th>Símbolo</th>'
+    return ('<div class="table-wrap"><table class="vt"><thead><tr><th>Magnitud</th><th>Símbolo</th>'
             '<th class="num">Analítico</th><th class="num">Numérico</th><th class="num">Error abs.</th><th>Unidad</th>'
             f"</tr></thead><tbody>{body}</tbody></table></div>")
 
@@ -170,67 +185,78 @@ def scene_html(scene: Scene, chapter: Chapter, idx: int, base: str, media: dict)
 # ---------------------------------------------------------------------- paginas
 def chapter_page(ch: Chapter, chapters: list[Chapter], media: dict) -> str:
     base = "../"
-    toc = "".join(f'<a href="#{s.id}">{e(s.title)}</a>' for s in ch.scenes)
+    toc = '<div class="eyebrow">En esta página</div>' + "".join(f'<a href="#{sc.id}">{e(sc.title)}</a>' for sc in ch.scenes)
     concepts = "".join(f'<span class="badge badge-secondary">{e(c)}</span>' for c in ch.concepts)
-    scenes = "".join(scene_html(s, ch, i + 1, base, media) for i, s in enumerate(ch.scenes))
+    scenes = "".join(scene_html(sc, ch, i + 1, base, media) for i, sc in enumerate(ch.scenes))
     i = chapters.index(ch)
     prev_ = chapters[i - 1] if i > 0 else None
     next_ = chapters[i + 1] if i < len(chapters) - 1 else None
-    pager = "<div class=\"pager\">"
-    pager += (f'<a href="{prev_.slug}.html"><span class="label">Anterior</span>{prev_.number:02d}. {e(prev_.title)}</a>'
-              if prev_ else "<span></span>")
-    pager += (f'<a class="next" href="{next_.slug}.html"><span class="label">Siguiente</span>{next_.number:02d}. {e(next_.title)}</a>'
-              if next_ else "")
+
+    def label(c: Chapter) -> str:
+        return f"V{c.volume} &middot; {c.number:02d}. {e(c.title)}"
+
+    pager = '<div class="pager">'
+    pager += f'<a href="{prev_.slug}.html"><span class="label">Anterior</span>{label(prev_)}</a>' if prev_ else "<span></span>"
+    pager += f'<a class="next" href="{next_.slug}.html"><span class="label">Siguiente</span>{label(next_)}</a>' if next_ else ""
     pager += "</div>"
     body = f"""
 <div class="container">
-  <nav class="crumbs" aria-label="Ruta"><a href="{base}index.html">Inicio</a><span>/</span><a href="{base}index.html#capitulos">Capítulos</a><span>/</span><span>{ch.number:02d}</span></nav>
+  <nav class="crumbs" aria-label="Ruta"><a href="{base}index.html">Inicio</a><span>/</span><a href="{base}index.html#capitulos">Capítulos</a><span>/</span><span>V{ch.volume} &middot; {ch.number:02d}</span></nav>
   <header class="chapter-head prose-col">
-    <div class="eyebrow">Volumen 1 &middot; Capítulo {ch.number}</div>
+    <div class="eyebrow">Volumen {ch.volume} &middot; {e(ch.part)} &middot; Capítulo {ch.number}</div>
     <h1>{e(ch.title)}</h1>
     <p class="lead" style="margin-bottom:0">{e(ch.summary)}</p>
     <div class="concepts" aria-label="Índice de conceptos">{concepts}</div>
   </header>
   <div class="layout">
-    <aside class="toc"><div class="eyebrow">En esta página</div>{toc}</aside>
+    <aside class="toc">{toc}</aside>
     <div>{scenes}{pager}</div>
   </div>
 </div>"""
-    return page(f"{ch.number:02d}. {ch.title} | Resnick animado", body, base,
+    return page(f"{ch.number:02d}. {ch.title} (vol. {ch.volume}) | Resnick animado", body, base,
                 f"Animaciones, solución analítica y verificación numérica: {ch.title}.", "chapters")
+
+
+def toc_html(chapters: list[Chapter]) -> str:
+    by_key = {(c.volume, c.number): c for c in chapters}
+    out = ""
+    for vol, vol_title in VOLUMES.items():
+        entries = [t for t in INDEX if t[0] == vol]
+        done = sum(1 for n in range(1, len(entries) + 1) if (vol, n) in by_key)
+        out += (f'<div class="toc-volume"><header><h3 style="font-size:1.25rem">Volumen {vol}</h3>'
+                f'<span class="eyebrow">{done} de {len(entries)} capítulos</span><p>{e(vol_title)}</p></header>')
+        part = None
+        rows = ""
+        for n, (_, prt, title, concepts) in enumerate(entries, start=1):
+            if prt != part:
+                if rows:
+                    out += f'<ul class="chapter-list">{rows}</ul>'
+                    rows = ""
+                out += f'<h4 class="part-title">{e(prt)}</h4>'
+                part = prt
+            ch = by_key.get((vol, n))
+            inner = (f'<span class="n">{n:02d}</span><span class="t">{e(title)}</span>'
+                     f'<span class="c">{e(concepts)}</span>')
+            if ch:
+                rows += (f'<li><a class="chapter-row" href="chapters/{ch.slug}.html">{inner}'
+                         f'<span class="s"><span class="badge badge-ok">{len(ch.scenes)} animaciones</span></span></a></li>')
+            else:
+                rows += (f'<li><div class="chapter-row planned">{inner}'
+                         f'<span class="s"><span class="badge badge-muted">Planificado</span></span></div></li>')
+        out += f'<ul class="chapter-list">{rows}</ul></div>'
+    return out
 
 
 def index_page(chapters: list[Chapter], media: dict) -> str:
     base = ""
     n_scenes = sum(len(c.scenes) for c in chapters)
     n_rows = sum(len(s.rows) for c in chapters for s in c.scenes)
-    n_concepts = sum(len(c.concepts) for c in chapters)
-    featured = chapters[3].scenes[0]
-    cards = ""
-    for c in chapters:
-        tags = "".join(f'<span class="badge badge-muted">{e(t)}</span>' for t in c.concepts[:3])
-        cards += (f'<a class="card" href="chapters/{c.slug}.html"><span class="num">CAPÍTULO {c.number:02d}</span>'
-                  f"<h3>{e(c.title)}</h3><p>{e(c.summary)}</p><div class=\"tags\">{tags}</div>"
-                  f'<div class="foot"><span>{len(c.scenes)} animaciones</span><span>Disponible</span></div></a>')
-    road = ""
-    for vol, subtitle, parts in ROADMAP:
-        n_all = sum(len(items) for _, items in parts)
-        n_done = sum(1 for _, items in parts for it in items if it[2] == "Publicado")
-        blocks = ""
-        for part, items in parts:
-            rows = "".join(
-                f"<tr><td>{e(t)}</td><td style=\"color:var(--muted-foreground)\">{e(c)}</td>"
-                f'<td><span class="badge {"badge-ok" if st == "Publicado" else "badge-muted"}">{e(st)}</span></td></tr>'
-                for t, c, st in items)
-            blocks += (f'<h3 style="margin:1.5rem 0 .7rem">{e(part)}</h3><div class="table-wrap"><table><thead><tr>'
-                       f"<th>Tema</th><th>Conceptos</th><th>Estado</th></tr></thead><tbody>{rows}</tbody></table></div>")
-        road += (f'<div><div style="display:flex;justify-content:space-between;align-items:baseline;gap:1rem">'
-                 f"<h2 style=\"font-size:1.25rem\">{e(vol)}</h2><span class=\"eyebrow\">{n_done} de {n_all} temas</span></div>"
-                 f'<p style="color:var(--muted-foreground);margin:.2rem 0 0;font-size:14px">{e(subtitle)}</p>{blocks}</div>')
+    featured = next((c for c in chapters if c.volume == 1 and c.number == 4), chapters[0]).scenes[0]
+    feat_ch = next((c for c in chapters if c.volume == 1 and c.number == 4), chapters[0])
     refs = ""
     counter = 1
     for group, items in REFERENCES:
-        lis = "".join(f"<li>{t} <span style=\"color:var(--muted-foreground)\">({u})</span></li>" for t, u in items)
+        lis = "".join(f'<li>{t} <span style="color:var(--muted-foreground)">({u})</span></li>' for t, u in items)
         refs += f'<div><h3 style="margin-bottom:.6rem">{e(group)}</h3><ol class="refs" start="{counter}">{lis}</ol></div>'
         counter += len(items)
     body = f"""
@@ -238,27 +264,27 @@ def index_page(chapters: list[Chapter], media: dict) -> str:
   <section class="hero">
     <div class="hero-grid">
       <div>
-        <span class="badge">Volumen 1 &middot; capítulos 1 a 5</span>
+        <span class="badge">Volúmenes 1 y 2 &middot; en construcción</span>
         <h1>Física de Resnick, Halliday y Krane con rigor numérico</h1>
-        <p class="lead">Visualizaciones con Manim de cada tema del volumen 1. Cada problema se resuelve de forma analítica y numérica, y ambas soluciones se contrastan en pantalla.</p>
+        <p class="lead">Visualizaciones con Manim de cada tema. Cada problema se resuelve de forma analítica y numérica, y ambas soluciones se contrastan en pantalla.</p>
         <div class="actions">
           <a class="btn btn-primary" href="#capitulos">Ver capítulos</a>
           <a class="btn btn-outline" href="{REPO_URL}">Código fuente</a>
         </div>
       </div>
-      <div>{video_block(featured, chapters[3], base, media)}</div>
+      <div>{video_block(featured, feat_ch, base, media)}</div>
     </div>
   </section>
   <div class="stats" role="list">
-    <div role="listitem"><div class="stat-value">{len(chapters)}</div><div class="stat-label">Capítulos publicados</div></div>
+    <div role="listitem"><div class="stat-value">{len(chapters)}<span style="font-size:1rem;color:var(--muted-foreground)"> / {len(INDEX)}</span></div><div class="stat-label">Capítulos publicados</div></div>
     <div role="listitem"><div class="stat-value">{n_scenes}</div><div class="stat-label">Animaciones</div></div>
-    <div role="listitem"><div class="stat-value">{n_concepts}</div><div class="stat-label">Conceptos del índice</div></div>
+    <div role="listitem"><div class="stat-value">{sum(len(c.concepts) for c in chapters)}</div><div class="stat-label">Conceptos del índice</div></div>
     <div role="listitem"><div class="stat-value">{n_rows}</div><div class="stat-label">Magnitudes verificadas</div></div>
   </div>
-  <section class="block" id="capitulos" style="margin-top:3.5rem">
+  <section class="block" id="capitulos" style="margin-top:2.5rem">
     <div class="section-head"><div class="eyebrow">Contenido</div><h2>Capítulos</h2>
-      <p>Los cinco primeros temas del volumen 1, de la medición a las leyes de Newton.</p></div>
-    <div class="grid grid-3">{cards}</div>
+      <p>Índice de los volúmenes 1 y 2. Cada capítulo publicado incluye animaciones, solución analítica y verificación numérica.</p></div>
+    {toc_html(chapters)}
   </section>
   <section class="block" id="metodologia">
     <div class="section-head"><div class="eyebrow">Método</div><h2>Cada problema, tres capas</h2>
@@ -266,14 +292,9 @@ def index_page(chapters: list[Chapter], media: dict) -> str:
     <div class="grid grid-3">
       <div class="card"><span class="num">01</span><h3>Fundamentos</h3><p>Las definiciones y leyes del tema, con su notación, antes de resolver nada.</p></div>
       <div class="card"><span class="num">02</span><h3>Solución analítica</h3><p>Deducción en forma cerrada, paso a paso, con las ecuaciones tal como se escriben en el libro.</p></div>
-      <div class="card"><span class="num">03</span><h3>Solución numérica</h3><p>Integración RK4, álgebra lineal, diferencias finitas o Monte Carlo, según el problema, contrastadas con la solución exacta.</p></div>
+      <div class="card"><span class="num">03</span><h3>Solución numérica</h3><p>Integración RK4, álgebra lineal, diferencias finitas, Monte Carlo o simulación, contrastadas con la solución exacta.</p></div>
     </div>
     <p class="note" style="max-width:46rem;margin-top:1.5rem">La capa <code>physics/</code> no depende de Manim. Cada resultado se comprueba con pruebas automáticas que fallan si analítico y numérico divergen más allá de la tolerancia esperada del método.</p>
-  </section>
-  <section class="block" id="hoja-de-ruta">
-    <div class="section-head"><div class="eyebrow">Plan</div><h2>Hoja de ruta</h2>
-      <p>El objetivo es completar los volúmenes 1 y 2 siguiendo el índice de conceptos de referencia del proyecto.</p></div>
-    <div class="grid grid-2 roadmap">{road}</div>
   </section>
   <section class="block" id="fuentes">
     <div class="section-head"><div class="eyebrow">Bibliografía</div><h2>Fuentes</h2>

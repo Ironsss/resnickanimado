@@ -2,8 +2,8 @@ import numpy as np
 import pytest
 
 from physics import ch01_measurement as c1
-from physics import ch02_motion_1d as c2
-from physics import ch03_vectors as c3
+from physics import ch03_motion_1d as m1d
+from physics import ch02_vectors as vec
 from physics import ch04_motion_2d as c4
 from physics import ch05_newton as c5
 
@@ -28,39 +28,39 @@ def test_density_uncertainty_monte_carlo_matches_propagation():
 
 
 def test_secant_converges_to_derivative():
-    tab = c2.secant_table()
+    tab = m1d.secant_table()
     errs = [r["error"] for r in tab]
     assert errs == sorted(errs, reverse=True)
     assert errs[-1] < 1e-3
-    assert c2.central_second_difference(2.0, 1e-2) == pytest.approx(c2.a_analytic(2.0), abs=1e-6)
+    assert m1d.central_second_difference(2.0, 1e-2) == pytest.approx(m1d.a_analytic(2.0), abs=1e-6)
 
 
 def test_area_under_v_is_displacement():
-    d = c2.displacement_from_velocity(0.0, 4.0, 4000)
+    d = m1d.displacement_from_velocity(0.0, 4.0, 4000)
     assert d["trapezoid"] == pytest.approx(d["exact"], rel=1e-6)
     assert abs(d["riemann"] - d["exact"]) > abs(d["trapezoid"] - d["exact"])
 
 
 def test_free_fall_rk4_exact_euler_first_order():
-    rows = c2.free_fall_convergence()
+    rows = m1d.free_fall_convergence()
     assert all(r["err_rk4"] < 1e-9 for r in rows)
     ratio = rows[0]["err_euler"] / rows[-1]["err_euler"]
     assert ratio == pytest.approx(rows[-1]["n"] / rows[0]["n"], rel=0.1)
 
 
 def test_vector_resultant_analytic_equals_components():
-    an, nu = c3.resultant_analytic(), c3.resultant_numeric()
+    an, nu = vec.resultant_analytic(), vec.resultant_numeric()
     assert an["magnitude"] == pytest.approx(nu["magnitude"], abs=1e-9)
     assert an["angle_deg"] == pytest.approx(nu["angle_deg"], abs=1e-9)
 
 
 def test_products_and_invariance():
-    p = c3.products_analytic()
-    assert p["dot_by_angle"] == pytest.approx(c3.dot())
-    assert p["cross_by_angle"] == pytest.approx(c3.cross_z())
-    area, _, _ = c3.parallelogram_area_monte_carlo()
-    assert area == pytest.approx(abs(c3.cross_z()), rel=0.01)
-    _, _, _, dots = c3.invariance_sweep()
+    p = vec.products_analytic()
+    assert p["dot_by_angle"] == pytest.approx(vec.dot())
+    assert p["cross_by_angle"] == pytest.approx(vec.cross_z())
+    area, _, _ = vec.parallelogram_area_monte_carlo()
+    assert area == pytest.approx(abs(vec.cross_z()), rel=0.01)
+    _, _, _, dots = vec.invariance_sweep()
     assert np.ptp(dots) < 1e-9
 
 

@@ -22,12 +22,17 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install numpy pytest
+      - run: pip install numpy scipy pytest
       - run: python -m pytest -q
 
-  build:
+  render:
     needs: test
     runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -43,13 +48,41 @@ jobs:
             fonts-inter fonts-jetbrains-mono
           fc-cache -f
       - run: pip install -r requirements.txt
-      - name: Cache de videos
+      - name: Cache de Manim
         uses: actions/cache@v4
         with:
           path: media
-          key: manim-${{ hashFiles('animations/**', 'physics/**', 'content/**', 'manim.cfg') }}
-      - name: Renderizar animaciones
-        run: python scripts/render_all.py
+          key: manim-${{ matrix.shard }}-${{ github.sha }}
+          restore-keys: manim-${{ matrix.shard }}-
+      - name: Renderizar escenas del grupo
+        run: python scripts/render_all.py --shard ${{ matrix.shard }}/8
+      - name: Reunir videos finales
+        run: |
+          mkdir -p out
+          rsync -a --prune-empty-dirs --include='*/' --include='1080p30/*.mp4' --exclude='*' media/videos/ out/
+          find out -name '*.mp4' | sort
+      - uses: actions/upload-artifact@v4
+        with:
+          name: videos-${{ matrix.shard }}
+          path: out
+          if-no-files-found: error
+          retention-days: 2
+
+  build:
+    needs: render
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
+      - run: pip install numpy scipy
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: videos-*
+          merge-multiple: true
+          path: media/videos
       - name: Construir sitio
         run: python scripts/build_site.py
       - uses: actions/configure-pages@v5

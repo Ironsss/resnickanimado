@@ -41,3 +41,5 @@ class Chapter:
     summary: str
     concepts: list[str]
     scenes: list[Scene]
+    volume: int = 1
+    part: str = ""
