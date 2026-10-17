@@ -42,8 +42,8 @@ Los 50 temas del índice de los volúmenes 1 y 2 están publicados, con dos esce
 | Parte | Temas | Ejemplos de métodos numéricos |
 | --- | --- | --- |
 | Vol. 1. Mecánica clásica | Capítulos 1 a 17: medición, vectores, cinemática, leyes de Newton, energía, colisiones, rotación, gravitación, fluidos | RK4 y Euler [4][5], Verlet, Monte Carlo [6], sección áurea [7], Simpson, bisección, sistemas lineales |
-| Vol. 1. Oscilaciones y ondas | Capítulos 18 a 21: oscilaciones, ondas, sonido, relatividad especial | Diferencias finitas, análisis de Fourier, Doppler, transformaciones de Lorentz |
-| Vol. 1. Termodinámica | Capítulos 22 a 25: temperatura, primera ley, teoría cinética, entropía | Monte Carlo de gases, Metropolis, integración de ciclos |
+| Vol. 1. Oscilaciones y ondas | Capítulos 18 a 21: oscilaciones, ondas, sonido, relatividad especial | RK4, diferencias finitas (leapfrog), autovalores, FFT con ventana de Hann, Monte Carlo, matrices de Lorentz |
+| Vol. 1. Termodinámica | Capítulos 22 a 25: temperatura, primera ley, teoría cinética, entropía | RK4, Simpson sobre ciclos, Monte Carlo de gases, simulación de partículas independientes |
 | Vol. 2. Electromagnetismo | Capítulos 1 a 14: Coulomb, Gauss, potencial, circuitos, campo magnético, inducción, Maxwell | Relajación SOR, Biot-Savart numérico, Boris, diferencias finitas de Yee (FDTD), detección síncrona |
 | Vol. 2. Óptica | Capítulos 15 a 18: Snell y Fermat, lentes, interferencia, difracción y polarización | Trazado exacto de rayos, matrices ABCD y de transferencia, suma coherente, cálculo de Jones |
 | Vol. 2. Física cuántica y moderna | Capítulos 19 a 25: cuerpo negro, ondas de materia, Schrödinger, hidrógeno, bandas, núcleo, cosmología | Diagonalización de hamiltonianos, RK4 de la ecuación estacionaria, FFT, Monte Carlo, ondas planas |
