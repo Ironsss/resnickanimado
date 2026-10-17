@@ -195,3 +195,11 @@ pre.cmd code { white-space: pre; }
 .site-footer p { margin: 0; max-width: 52rem; }
 
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+
+.refs { margin: 0; padding-left: 1.4rem; font-size: 14px; max-width: 54rem; }
+.refs li { margin-bottom: 0.55rem; }
+
+.grid > * { min-width: 0; }
+.roadmap { grid-template-columns: 1fr !important; gap: 3rem; }
+.roadmap td { white-space: normal; }
+.roadmap td:first-child { white-space: nowrap; }

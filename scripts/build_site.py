@@ -17,6 +17,7 @@ sys.path.insert(0, str(ROOT))
 
 from content.chapters import ROADMAP, load_chapters  # noqa: E402
 from content.model import Chapter, Row, Scene  # noqa: E402
+from content.references import REFERENCES  # noqa: E402
 
 REPO_URL = "https://github.com/ironsss/resnickanimado"
 KATEX = "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist"
@@ -95,6 +96,7 @@ def page(title: str, body: str, base: str, description: str, current: str = "") 
       {nav("index.html#capitulos", "Capítulos", "chapters")}
       {nav("index.html#metodologia", "Metodología", "method", "hide-sm")}
       {nav("index.html#hoja-de-ruta", "Hoja de ruta", "roadmap", "hide-sm")}
+      {nav("index.html#fuentes", "Fuentes", "sources", "hide-sm")}
       <a href="{REPO_URL}">GitHub</a>
       <button class="btn btn-ghost" id="theme-toggle" type="button" aria-label="Cambiar tema">Tema</button>
     </nav>
@@ -225,6 +227,12 @@ def index_page(chapters: list[Chapter], media: dict) -> str:
         road += (f'<div><div style="display:flex;justify-content:space-between;align-items:baseline;gap:1rem">'
                  f"<h2 style=\"font-size:1.25rem\">{e(vol)}</h2><span class=\"eyebrow\">{n_done} de {n_all} temas</span></div>"
                  f'<p style="color:var(--muted-foreground);margin:.2rem 0 0;font-size:14px">{e(subtitle)}</p>{blocks}</div>')
+    refs = ""
+    counter = 1
+    for group, items in REFERENCES:
+        lis = "".join(f"<li>{t} <span style=\"color:var(--muted-foreground)\">({u})</span></li>" for t, u in items)
+        refs += f'<div><h3 style="margin-bottom:.6rem">{e(group)}</h3><ol class="refs" start="{counter}">{lis}</ol></div>'
+        counter += len(items)
     body = f"""
 <div class="container">
   <section class="hero">
@@ -266,6 +274,11 @@ def index_page(chapters: list[Chapter], media: dict) -> str:
     <div class="section-head"><div class="eyebrow">Plan</div><h2>Hoja de ruta</h2>
       <p>El objetivo es completar los volúmenes 1 y 2 siguiendo el índice de conceptos de referencia del proyecto.</p></div>
     <div class="grid grid-2 roadmap">{road}</div>
+  </section>
+  <section class="block" id="fuentes">
+    <div class="section-head"><div class="eyebrow">Bibliografía</div><h2>Fuentes</h2>
+      <p>Texto de referencia, métodos numéricos y software utilizados. Los enunciados y resultados son originales.</p></div>
+    <div class="grid" style="gap:2rem">{refs}</div>
   </section>
 </div>"""
     return page("Resnick animado | Física con Manim y verificación numérica", body, base,

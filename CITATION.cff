@@ -1,0 +1,51 @@
+cff-version: 1.2.0
+message: "Si usa este material, cite el proyecto y el texto de referencia (Resnick, Halliday y Krane)."
+title: "Resnick animado: visualizaciones con Manim y verificación numérica"
+type: software
+authors:
+  - name: "Contribuyentes de resnickanimado"
+repository-code: "https://github.com/Ironsss/resnickanimado"
+url: "https://ironsss.github.io/resnickanimado/"
+license: MIT
+date-released: "2026-10-17"
+keywords:
+  - física
+  - mecánica clásica
+  - Manim
+  - visualización
+  - métodos numéricos
+references:
+  - type: book
+    authors:
+      - family-names: Resnick
+        given-names: Robert
+      - family-names: Halliday
+        given-names: David
+      - family-names: Krane
+        given-names: Kenneth S.
+    title: "Physics, Volume 1"
+    edition: "5"
+    publisher:
+      name: "John Wiley & Sons"
+    year: 2002
+    isbn: "978-0-471-32057-9"
+  - type: book
+    authors:
+      - family-names: Resnick
+        given-names: Robert
+      - family-names: Halliday
+        given-names: David
+      - family-names: Krane
+        given-names: Kenneth S.
+    title: "Physics, Volume 2"
+    edition: "5"
+    publisher:
+      name: "John Wiley & Sons"
+    year: 2002
+    isbn: "978-0-471-40194-0"
+  - type: software
+    authors:
+      - name: "The Manim Community Developers"
+    title: "Manim: Mathematical Animation Framework"
+    version: "0.22.0"
+    url: "https://www.manim.community/"
