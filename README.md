@@ -89,7 +89,7 @@ Los criterios completos de aceptación están en [`docs/ROADMAP.md`](docs/ROADMA
 
 ## Despliegue
 
-El flujo [`.github/workflows/pages.yml`](.github/workflows/pages.yml) se ejecuta en cada push a `main` o `master`: ejecuta las pruebas, renderiza las animaciones a 1080p, genera el sitio y lo publica con GitHub Pages.
+El flujo [`.github/workflows/pages.yml`](.github/workflows/pages.yml) se ejecuta en cada push a `main`: ejecuta las pruebas, renderiza las animaciones a 1080p, genera el sitio y lo publica con GitHub Pages.
 
 Requisito único en el repositorio: en *Settings > Pages*, seleccionar **GitHub Actions** como origen.
 
