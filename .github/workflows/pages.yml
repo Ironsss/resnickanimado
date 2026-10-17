@@ -55,7 +55,12 @@ jobs:
           key: manim-${{ matrix.shard }}-${{ github.sha }}
           restore-keys: manim-${{ matrix.shard }}-
       - name: Renderizar escenas del grupo
+        id: render
+        continue-on-error: true
         run: python scripts/render_all.py --shard ${{ matrix.shard }}/8
+      - name: Avisar de escenas que fallaron
+        if: steps.render.outcome == 'failure'
+        run: echo "::warning::Fallaron escenas en el grupo ${{ matrix.shard }}; el sitio se publica con las demás (revise el registro del paso anterior)."
       - name: Reunir videos finales
         run: |
           mkdir -p out
@@ -65,7 +70,7 @@ jobs:
         with:
           name: videos-${{ matrix.shard }}
           path: out
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 2
 
   build:
