@@ -5,7 +5,7 @@ La numeración de capítulos sigue el orden de ese índice y puede diferir de la
 
 ## Volumen 1: Mecánica, ondas y termodinámica
 
-Avance: 10 de 25 capítulos.
+Avance: 17 de 25 capítulos.
 
 
 ### Mecánica clásica
@@ -22,13 +22,13 @@ Avance: 10 de 25 capítulos.
 | 8 | Conservación de la energía | Energía potencial, fuerzas conservativas y no conservativas | Publicado |
 | 9 | Sistemas de partículas | Centro de masa, ímpetu lineal y su conservación | Publicado |
 | 10 | Colisiones | Impulso, colisiones elásticas e inelásticas | Publicado |
-| 11 | Cinemática rotacional | Variables rotacionales, velocidad y aceleración angular | Planificado |
-| 12 | Dinámica rotacional | Torque, momento de inercia, segunda ley para la rotación | Planificado |
-| 13 | Momento angular | Conservación del momento angular, giroscopios | Planificado |
-| 14 | Equilibrio de cuerpos rígidos | Condiciones de equilibrio, elasticidad | Planificado |
-| 15 | Gravitación | Gravitación universal, leyes de Kepler, movimiento planetario | Planificado |
-| 16 | Estática de fluidos | Presión, principios de Pascal y Arquímedes | Planificado |
-| 17 | Dinámica de fluidos | Continuidad, ecuación de Bernoulli | Planificado |
+| 11 | Cinemática rotacional | Variables rotacionales, velocidad y aceleración angular | Publicado |
+| 12 | Dinámica rotacional | Torque, momento de inercia, segunda ley para la rotación | Publicado |
+| 13 | Momento angular | Conservación del momento angular, giroscopios | Publicado |
+| 14 | Equilibrio de cuerpos rígidos | Condiciones de equilibrio, elasticidad | Publicado |
+| 15 | Gravitación | Gravitación universal, leyes de Kepler, movimiento planetario | Publicado |
+| 16 | Estática de fluidos | Presión, principios de Pascal y Arquímedes | Publicado |
+| 17 | Dinámica de fluidos | Continuidad, ecuación de Bernoulli | Publicado |
 
 ### Oscilaciones y ondas
 

@@ -155,7 +155,10 @@ def polyline(axes: Axes, xs, ys, color: str = NUMERIC, width: float = 3.5) -> VM
 
 def axes_block(xr, yr, w, h, pos, xticks=(), yticks=(), xlabel="", ylabel="", fmt="{:g}"):
     """Ejes con marcas numericas y rotulos. Devuelve (axes, grupo_decoracion)."""
-    ax = make_axes([xr[0], xr[1]], [yr[0], yr[1]], w, h, numbers=False).move_to(pos)
+    def _step(rng, ticks):
+        return float(ticks[1] - ticks[0]) if len(ticks) >= 2 else (rng[1] - rng[0]) / 5.0
+
+    ax = make_axes([xr[0], xr[1]], [yr[0], yr[1]], w, h, _step(xr, xticks), _step(yr, yticks), numbers=False).move_to(pos)
     deco = VGroup()
     for v in xticks:
         deco.add(T(fmt.format(v), 14, MUTED, mono=True).next_to(ax.c2p(v, yr[0]), DOWN, buff=0.1))
