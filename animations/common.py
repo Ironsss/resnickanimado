@@ -5,6 +5,8 @@ Paleta neutra (escala zinc) con un unico acento por rol semantico:
 """
 from __future__ import annotations
 
+import re
+
 from manim import (
     DOWN, LEFT, RIGHT, UP, UL, UR, Axes, FadeIn, FadeOut, Line, MathTex, Mobject,
     RoundedRectangle, Scene, Text, VGroup, config,
@@ -31,8 +33,14 @@ def T(text: str, size: int = 26, color: str = FG, mono: bool = False, weight: st
     return Text(text, font=MONO if mono else FONT, font_size=size, color=color, weight=weight)
 
 
+def _texify_accents(tex: str) -> str:
+    """LaTeX no admite letras acentuadas en modo matematico: se envuelven en \\text{} (subindices, \\mathrm)."""
+    tex = re.sub(r"\\mathrm\{([^{}]*[^\x00-\x7f][^{}]*)\}", lambda m: "\\text{" + m.group(1) + "}", tex)
+    return re.sub(r"([_^])\{([^{}]*[^\x00-\x7f][^{}]*)\}", lambda m: m.group(1) + "{\\text{" + m.group(2) + "}}", tex)
+
+
 def M(tex: str, size: int = 40, color: str = FG) -> MathTex:
-    return MathTex(tex, font_size=size, color=color)
+    return MathTex(_texify_accents(tex), font_size=size, color=color)
 
 
 def make_axes(x_range, y_range, width: float, height: float, x_step=None, y_step=None, numbers: bool = True) -> Axes:

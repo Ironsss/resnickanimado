@@ -5,7 +5,7 @@ La numeración de capítulos sigue el orden de ese índice y puede diferir de la
 
 ## Volumen 1: Mecánica, ondas y termodinámica
 
-Avance: 17 de 25 capítulos.
+Avance: 25 de 25 capítulos.
 
 
 ### Mecánica clásica
@@ -34,19 +34,19 @@ Avance: 17 de 25 capítulos.
 
 | Cap. | Tema | Conceptos | Estado |
 | --- | --- | --- | --- |
-| 18 | Oscilaciones | Movimiento armónico simple, péndulos, amortiguamiento y forzamiento | Planificado |
-| 19 | Movimiento ondulatorio | Ondas transversales y longitudinales, velocidad y potencia | Planificado |
-| 20 | Ondas sonoras | Propagación, efecto Doppler, interferencia, resonancia | Planificado |
-| 21 | Teoría especial de la relatividad | Cinemática y dinámica relativistas | Planificado |
+| 18 | Oscilaciones | Movimiento armónico simple, péndulos, amortiguamiento y forzamiento | Publicado |
+| 19 | Movimiento ondulatorio | Ondas transversales y longitudinales, velocidad y potencia | Publicado |
+| 20 | Ondas sonoras | Propagación, efecto Doppler, interferencia, resonancia | Publicado |
+| 21 | Teoría especial de la relatividad | Cinemática y dinámica relativistas | Publicado |
 
 ### Termodinámica
 
 | Cap. | Tema | Conceptos | Estado |
 | --- | --- | --- | --- |
-| 22 | Temperatura y ley cero | Escalas de temperatura, expansión térmica | Planificado |
-| 23 | Primera ley de la termodinámica | Calor, trabajo, energía interna | Planificado |
-| 24 | Teoría cinética de los gases | Presión del gas ideal, temperatura, distribución de velocidades | Planificado |
-| 25 | Segunda ley y entropía | Máquinas térmicas, ciclo de Carnot, entropía | Planificado |
+| 22 | Temperatura y ley cero | Escalas de temperatura, expansión térmica | Publicado |
+| 23 | Primera ley de la termodinámica | Calor, trabajo, energía interna | Publicado |
+| 24 | Teoría cinética de los gases | Presión del gas ideal, temperatura, distribución de velocidades | Publicado |
+| 25 | Segunda ley y entropía | Máquinas térmicas, ciclo de Carnot, entropía | Publicado |
 
 ## Volumen 2: Electromagnetismo, óptica y física cuántica
 
