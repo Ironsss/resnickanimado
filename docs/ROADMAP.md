@@ -5,7 +5,7 @@ La numeración de capítulos sigue el orden de ese índice y puede diferir de la
 
 ## Volumen 1: Mecánica, ondas y termodinámica
 
-Avance: 5 de 25 capítulos.
+Avance: 10 de 25 capítulos.
 
 
 ### Mecánica clásica
@@ -17,11 +17,11 @@ Avance: 5 de 25 capítulos.
 | 3 | Movimiento en una dimensión | Posición, velocidad, aceleración y caída libre | Publicado |
 | 4 | Movimiento en dos y tres dimensiones | Tiro parabólico y movimiento circular | Publicado |
 | 5 | Fuerza y leyes de Newton | Leyes del movimiento y aplicaciones | Publicado |
-| 6 | Dinámica de la partícula | Fricción, fuerza centrípeta, dinámica avanzada | Planificado |
-| 7 | Trabajo y energía | Trabajo, energía cinética, teorema trabajo-energía | Planificado |
-| 8 | Conservación de la energía | Energía potencial, fuerzas conservativas y no conservativas | Planificado |
-| 9 | Sistemas de partículas | Centro de masa, ímpetu lineal y su conservación | Planificado |
-| 10 | Colisiones | Impulso, colisiones elásticas e inelásticas | Planificado |
+| 6 | Dinámica de la partícula | Fricción, fuerza centrípeta, dinámica avanzada | Publicado |
+| 7 | Trabajo y energía | Trabajo, energía cinética, teorema trabajo-energía | Publicado |
+| 8 | Conservación de la energía | Energía potencial, fuerzas conservativas y no conservativas | Publicado |
+| 9 | Sistemas de partículas | Centro de masa, ímpetu lineal y su conservación | Publicado |
+| 10 | Colisiones | Impulso, colisiones elásticas e inelásticas | Publicado |
 | 11 | Cinemática rotacional | Variables rotacionales, velocidad y aceleración angular | Planificado |
 | 12 | Dinámica rotacional | Torque, momento de inercia, segunda ley para la rotación | Planificado |
 | 13 | Momento angular | Conservación del momento angular, giroscopios | Planificado |

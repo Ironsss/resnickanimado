@@ -126,3 +126,109 @@ def mono_table(header, rows, size: int = 19, colors=None, gap: float = 0.8, row_
         cells += [T(str(r[j]), size, colors[j], mono=True) for r in rows]
         cols.append(VGroup(*cells).arrange(DOWN, aligned_edge=LEFT, buff=row_buff))
     return VGroup(*cols).arrange(RIGHT, buff=gap, aligned_edge=UP)
+
+
+# ----------------------------------------------------------------- helpers de escena
+import numpy as np  # noqa: E402
+from manim import Dot, VMobject, Write  # noqa: E402
+
+
+def fit(group: Mobject, max_w: float = 12.6, max_h: float = 5.4) -> Mobject:
+    """Reduce el grupo si excede el area util del cuadro."""
+    if group.width > max_w:
+        group.scale(max_w / group.width)
+    if group.height > max_h:
+        group.scale(max_h / group.height)
+    return group
+
+
+def _item(x, size, default=FG):
+    tex, color = (x if isinstance(x, tuple) else (x, default))
+    return M(tex, size, color)
+
+
+def polyline(axes: Axes, xs, ys, color: str = NUMERIC, width: float = 3.5) -> VMobject:
+    m = VMobject(color=color, stroke_width=width)
+    m.set_points_as_corners([axes.c2p(x, y) for x, y in zip(xs, ys)])
+    return m
+
+
+def axes_block(xr, yr, w, h, pos, xticks=(), yticks=(), xlabel="", ylabel="", fmt="{:g}"):
+    """Ejes con marcas numericas y rotulos. Devuelve (axes, grupo_decoracion)."""
+    ax = make_axes([xr[0], xr[1]], [yr[0], yr[1]], w, h, numbers=False).move_to(pos)
+    deco = VGroup()
+    for v in xticks:
+        deco.add(T(fmt.format(v), 14, MUTED, mono=True).next_to(ax.c2p(v, yr[0]), DOWN, buff=0.1))
+    for v in yticks:
+        deco.add(T(fmt.format(v), 14, MUTED, mono=True).next_to(ax.c2p(xr[0], v), LEFT, buff=0.1))
+    if xlabel:
+        deco.add(T(xlabel, 16, MUTED).next_to(ax.x_axis.get_end(), DOWN, buff=0.3).shift(LEFT * 0.2))
+    if ylabel:
+        deco.add(T(ylabel, 16, MUTED).next_to(ax.y_axis.get_end(), UP, buff=0.1).align_to(ax.y_axis, LEFT))
+    return ax, deco
+
+
+def legend_block(items, pos) -> VGroup:
+    """items: [(color, texto)]. Linea corta de color + texto monoespaciado."""
+    rows = [VGroup(Line(LEFT * 0.15, RIGHT * 0.15, color=c, stroke_width=4), T(t, 17, MUTED, mono=True)).arrange(RIGHT, buff=0.2)
+            for c, t in items]
+    return VGroup(*rows).arrange(DOWN, aligned_edge=LEFT, buff=0.15).move_to(pos)
+
+
+def text_lines(lines, size=22, color=FG, buff=0.22, mono=True) -> VGroup:
+    """Lineas de texto alineadas a la izquierda; cada linea es str o (str, color)."""
+    mobs = []
+    for ln in lines:
+        txt, col = ln if isinstance(ln, tuple) else (ln, color)
+        mobs.append(T(txt, size, col, mono=mono))
+    return VGroup(*mobs).arrange(DOWN, aligned_edge=LEFT, buff=buff)
+
+
+def _phase_methods(cls):
+    def foundations(self, eqs, note=None, caption="", size=42, run_time=3.0):
+        self.phase("Fundamentos")
+        g = fit(VGroup(*[_item(e, size) for e in eqs]).arrange(DOWN, aligned_edge=LEFT, buff=0.5))
+        g.move_to(DOWN * (0.1 if not note else 0.35))
+        n = T(note, 22, MUTED) if note else None
+        if n is not None:
+            fit(n, 12.4)
+            n.next_to(g, DOWN, buff=0.55)
+            if n.width > g.width:
+                n.set_x(0)
+            else:
+                n.align_to(g, LEFT)
+        self.say(caption, *[Write(x) for x in g], run_time=run_time)
+        if n is not None:
+            self.play(FadeIn(n))
+        self.wait(1.0)
+        self.clear_stage()
+
+    def problem(self, lines, caption=""):
+        self.phase("Problema")
+        mobs = [T(l, 26 if i < len(lines) - 1 else 24, FG if i < len(lines) - 1 else MUTED) for i, l in enumerate(lines)]
+        g = fit(VGroup(*mobs).arrange(DOWN, aligned_edge=LEFT, buff=0.32), 12.4).move_to(DOWN * 0.1)
+        self.say(caption, FadeIn(g), run_time=1.4)
+        self.wait(1.6)
+        self.clear_stage()
+
+    def analytic(self, eqs, caption="", size=38, keep=False):
+        self.phase("Solución analítica")
+        g = fit(VGroup(*[_item(e, size) for e in eqs]).arrange(DOWN, aligned_edge=LEFT, buff=0.42)).move_to(DOWN * 0.1)
+        self.say(caption, run_time=0.4)
+        for x in g:
+            self.play(Write(x), run_time=1.1)
+        self.wait(1.5)
+        if not keep:
+            self.clear_stage()
+        return g
+
+    def numeric_phase(self, caption=""):
+        self.phase("Solución numérica")
+        if caption:
+            self.say(caption, run_time=0.5)
+
+    cls.foundations, cls.problem, cls.analytic, cls.numeric_phase = foundations, problem, analytic, numeric_phase
+    return cls
+
+
+_phase_methods(PhysicsScene)
