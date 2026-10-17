@@ -391,27 +391,74 @@ def load_chapters() -> list[Chapter]:
     return [_ch1(), _ch2(), _ch3(), _ch4(), _ch5()]
 
 
-# Hoja de ruta: la numeracion posterior al capitulo 5 se confirma con la edicion usada.
+# Hoja de ruta segun el indice de referencia del proyecto (volumenes 1 y 2).
+# Cada bloque: (parte, [(tema, conceptos, estado)]). Los temas ya implementados figuran como Publicado.
+P, L = "Publicado", "Planificado"
 ROADMAP = [
-    ("Volumen 1", "Mecánica", [
-        ("Dinámica de una partícula", "Planificado"),
-        ("Trabajo y energía", "Planificado"),
-        ("Conservación de la energía", "Planificado"),
-        ("Sistemas de partículas y colisiones", "Planificado"),
-        ("Cinemática y dinámica de la rotación", "Planificado"),
-        ("Momento angular y equilibrio de cuerpos rígidos", "Planificado"),
-        ("Oscilaciones", "Planificado"),
-        ("Gravitación", "Planificado"),
-        ("Mecánica de fluidos", "Planificado"),
-        ("Ondas y sonido", "Planificado"),
+    ("Volumen 1", "Mecánica, ondas y termodinámica", [
+        ("Mecánica clásica", [
+            ("Medición", "Sistemas de unidades, patrones de tiempo, longitud y masa", P),
+            ("Vectores", "Suma, componentes, productos escalar y vectorial", P),
+            ("Movimiento en una dimensión", "Posición, velocidad, aceleración y caída libre", P),
+            ("Movimiento en dos y tres dimensiones", "Tiro parabólico y movimiento circular", P),
+            ("Fuerza y leyes de Newton", "Leyes del movimiento y aplicaciones", P),
+            ("Dinámica de la partícula", "Fricción, fuerza centrípeta, dinámica avanzada", L),
+            ("Trabajo y energía", "Trabajo, energía cinética, teorema trabajo-energía", L),
+            ("Conservación de la energía", "Energía potencial, fuerzas conservativas y no conservativas", L),
+            ("Sistemas de partículas", "Centro de masa, ímpetu lineal y su conservación", L),
+            ("Colisiones", "Impulso, colisiones elásticas e inelásticas", L),
+            ("Cinemática rotacional", "Variables rotacionales, velocidad y aceleración angular", L),
+            ("Dinámica rotacional", "Torque, momento de inercia, segunda ley para la rotación", L),
+            ("Momento angular", "Conservación del momento angular, giroscopios", L),
+            ("Equilibrio de cuerpos rígidos", "Condiciones de equilibrio, elasticidad", L),
+            ("Gravitación", "Gravitación universal, leyes de Kepler, movimiento planetario", L),
+            ("Estática de fluidos", "Presión, principios de Pascal y Arquímedes", L),
+            ("Dinámica de fluidos", "Continuidad, ecuación de Bernoulli", L),
+        ]),
+        ("Oscilaciones y ondas", [
+            ("Oscilaciones", "Movimiento armónico simple, péndulos, amortiguamiento y forzamiento", L),
+            ("Movimiento ondulatorio", "Ondas transversales y longitudinales, velocidad y potencia", L),
+            ("Ondas sonoras", "Propagación, efecto Doppler, interferencia, resonancia", L),
+            ("Teoría especial de la relatividad", "Cinemática y dinámica relativistas", L),
+        ]),
+        ("Termodinámica", [
+            ("Temperatura y ley cero", "Escalas de temperatura, expansión térmica", L),
+            ("Primera ley de la termodinámica", "Calor, trabajo, energía interna", L),
+            ("Teoría cinética de los gases", "Presión del gas ideal, temperatura, distribución de velocidades", L),
+            ("Segunda ley y entropía", "Máquinas térmicas, ciclo de Carnot, entropía", L),
+        ]),
     ]),
-    ("Volumen 2", "Electromagnetismo, óptica y física moderna", [
-        ("Carga y campo eléctrico", "Planificado"),
-        ("Potencial y capacitancia", "Planificado"),
-        ("Corriente y circuitos", "Planificado"),
-        ("Campo magnético e inducción", "Planificado"),
-        ("Ecuaciones de Maxwell y ondas electromagnéticas", "Planificado"),
-        ("Óptica", "Planificado"),
-        ("Introducción a la física cuántica", "Planificado"),
+    ("Volumen 2", "Electromagnetismo, óptica y física cuántica", [
+        ("Electromagnetismo", [
+            ("Carga eléctrica y ley de Coulomb", "Carga, aislantes y conductores, fuerza electrostática", L),
+            ("El campo eléctrico", "Líneas de campo, distribuciones continuas", L),
+            ("Ley de Gauss", "Flujo eléctrico, simetrías, conductores en equilibrio", L),
+            ("Potencial eléctrico", "Energía potencial, diferencia de potencial, cálculo del campo", L),
+            ("Capacitancia y dieléctricos", "Capacitores, serie y paralelo, energía almacenada", L),
+            ("Corriente y resistencia", "Ley de Ohm, modelos de conducción", L),
+            ("Circuitos de corriente directa", "Leyes de Kirchhoff, circuitos RC, fem", L),
+            ("El campo magnético", "Fuerza magnética, efecto Hall, movimiento de cargas", L),
+            ("Campo magnético de una corriente", "Ley de Biot-Savart, ley de Ampère", L),
+            ("Ley de inducción de Faraday", "Flujo magnético, ley de Lenz, fem inducida", L),
+            ("Inductancia", "Autoinductancia, circuitos RL, oscilaciones LC", L),
+            ("Propiedades magnéticas de la materia", "Dipolos, dia, para y ferromagnetismo; ley de Gauss del magnetismo", L),
+            ("Circuitos de corriente alterna", "Fasores, circuitos RLC, resonancia, transformadores", L),
+            ("Ecuaciones de Maxwell y ondas electromagnéticas", "Corriente de desplazamiento, espectro, vector de Poynting", L),
+        ]),
+        ("Óptica", [
+            ("Naturaleza y propagación de la luz", "Velocidad de la luz, reflexión, refracción, dispersión", L),
+            ("Óptica geométrica: espejos y lentes", "Formación de imágenes con espejos y lentes delgadas", L),
+            ("Interferencia", "Dos fuentes, experimento de Young, películas delgadas, interferómetros", L),
+            ("Difracción y polarización", "Difracción de Fraunhofer, rejillas, polarización", L),
+        ]),
+        ("Física cuántica y moderna", [
+            ("Fotones y naturaleza ondulatoria de la luz", "Cuerpo negro, efecto fotoeléctrico, efecto Compton", L),
+            ("Ondas de materia", "Hipótesis de De Broglie, principio de incertidumbre", L),
+            ("Ecuación de Schrödinger", "Funciones de onda, pozos de potencial, tunelamiento", L),
+            ("Estructura atómica", "Modelo de Bohr, átomo de hidrógeno, niveles de energía", L),
+            ("Conducción eléctrica en sólidos", "Teoría de bandas, semiconductores, uniones p-n", L),
+            ("Física nuclear", "Estructura del núcleo, radiactividad, fisión y fusión", L),
+            ("Partículas elementales y cosmología", "Quarks, leptones, fuerzas fundamentales, Big Bang", L),
+        ]),
     ]),
 ]

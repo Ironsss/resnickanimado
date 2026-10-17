@@ -24,7 +24,7 @@ Los números que muestran las animaciones y el sitio se calculan con las mismas 
 | 4 | Movimiento en dos y tres dimensiones | Proyectiles; movimiento circular uniforme | RK4 con refinamiento del impacto, sección áurea, diferencias finitas |
 | 5 | Fuerza y leyes de Newton | Equilibrio con dos cables; plano inclinado con polea | Sistema lineal, RK4, bisección |
 
-La hoja de ruta para completar los volúmenes 1 y 2 está en [`docs/ROADMAP.md`](docs/ROADMAP.md).
+La hoja de ruta para completar los volúmenes 1 y 2 sigue el índice de referencia del proyecto y está en [`docs/ROADMAP.md`](docs/ROADMAP.md). Se regenera con `python scripts/gen_roadmap.py` desde `content/chapters.py`, que es su fuente única.
 
 ## Estructura
 
@@ -101,7 +101,7 @@ El sitio y los videos comparten un sistema visual sobrio inspirado en [shadcn/ui
 
 - Este proyecto es independiente. No está afiliado a los autores ni a los editores del libro.
 - Se usa el índice de temas del libro como guía de cobertura. No se reproducen textos, figuras ni problemas del libro. Los enunciados son originales.
-- La numeración de capítulos y los títulos del volumen 1 siguen la estructura de la quinta edición en inglés. Deben confirmarse contra la edición que se use, sobre todo a partir del capítulo 6.
+- Los temas se identifican por título. La numeración de capítulos varía entre ediciones y puede diferir de la del sitio (por ejemplo, en el orden de *Vectores* y *Movimiento en una dimensión*).
 
 Referencia: R. Resnick, D. Halliday y K. S. Krane, *Física*, vol. 1 y 2.
 

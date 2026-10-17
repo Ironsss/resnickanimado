@@ -211,10 +211,20 @@ def index_page(chapters: list[Chapter], media: dict) -> str:
                   f"<h3>{e(c.title)}</h3><p>{e(c.summary)}</p><div class=\"tags\">{tags}</div>"
                   f'<div class="foot"><span>{len(c.scenes)} animaciones</span><span>Disponible</span></div></a>')
     road = ""
-    for vol, subtitle, items in ROADMAP:
-        rows = "".join(f'<tr><td>{e(t)}</td><td><span class="badge badge-muted">{e(s)}</span></td></tr>' for t, s in items)
-        road += (f'<div><h3>{e(vol)}</h3><p style="color:var(--muted-foreground);margin:.2rem 0 .9rem;font-size:14px">{e(subtitle)}</p>'
-                 f'<div class="table-wrap"><table><thead><tr><th>Bloque temático</th><th>Estado</th></tr></thead><tbody>{rows}</tbody></table></div></div>')
+    for vol, subtitle, parts in ROADMAP:
+        n_all = sum(len(items) for _, items in parts)
+        n_done = sum(1 for _, items in parts for it in items if it[2] == "Publicado")
+        blocks = ""
+        for part, items in parts:
+            rows = "".join(
+                f"<tr><td>{e(t)}</td><td style=\"color:var(--muted-foreground)\">{e(c)}</td>"
+                f'<td><span class="badge {"badge-ok" if st == "Publicado" else "badge-muted"}">{e(st)}</span></td></tr>'
+                for t, c, st in items)
+            blocks += (f'<h3 style="margin:1.5rem 0 .7rem">{e(part)}</h3><div class="table-wrap"><table><thead><tr>'
+                       f"<th>Tema</th><th>Conceptos</th><th>Estado</th></tr></thead><tbody>{rows}</tbody></table></div>")
+        road += (f'<div><div style="display:flex;justify-content:space-between;align-items:baseline;gap:1rem">'
+                 f"<h2 style=\"font-size:1.25rem\">{e(vol)}</h2><span class=\"eyebrow\">{n_done} de {n_all} temas</span></div>"
+                 f'<p style="color:var(--muted-foreground);margin:.2rem 0 0;font-size:14px">{e(subtitle)}</p>{blocks}</div>')
     body = f"""
 <div class="container">
   <section class="hero">
@@ -254,8 +264,8 @@ def index_page(chapters: list[Chapter], media: dict) -> str:
   </section>
   <section class="block" id="hoja-de-ruta">
     <div class="section-head"><div class="eyebrow">Plan</div><h2>Hoja de ruta</h2>
-      <p>El objetivo es completar los volúmenes 1 y 2. La numeración de capítulos posterior al quinto se confirma con la edición de referencia antes de cada entrega.</p></div>
-    <div class="grid grid-2">{road}</div>
+      <p>El objetivo es completar los volúmenes 1 y 2 siguiendo el índice de conceptos de referencia del proyecto.</p></div>
+    <div class="grid grid-2 roadmap">{road}</div>
   </section>
 </div>"""
     return page("Resnick animado | Física con Manim y verificación numérica", body, base,
