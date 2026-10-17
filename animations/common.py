@@ -290,3 +290,28 @@ def battery_symbol(center, vertical: bool = True, size: float = 0.3, color: str 
         long_ = Line(c + np.array([-0.1, -size, 0]), c + np.array([-0.1, size, 0]), color=color, stroke_width=4)
         short = Line(c + np.array([0.1, -size * 0.55, 0]), c + np.array([0.1, size * 0.55, 0]), color=color, stroke_width=6)
     return VGroup(long_, short)
+
+
+# --------------------------------------------------- plantilla de escena con curva y tabla
+def curve_scene(scene, *, found, note, fcap, problem, pcap, analytic, acap, numeric, xr, yr, xticks, yticks, xlabel, ylabel,
+                curves, dots, legend, table, final, fsize=36, asize=34, dot_every=1, table_pos=None):
+    """Fundamentos, problema, solucion analitica y fase numerica con curva analitica, puntos numericos y tabla de verificacion.
+
+    curves: lista de (xs, ys, color); dots: (xs, ys) numericos; legend: [(color, texto)]; table: (encabezado, filas)."""
+    from manim import Create, FadeIn, LaggedStart, Dot, VGroup, RIGHT, LEFT, DOWN, UP
+
+    scene.foundations(found, note=note, caption=fcap, size=fsize)
+    scene.problem(problem, caption=pcap)
+    scene.analytic(analytic, size=asize, caption=acap)
+    scene.numeric_phase(numeric)
+    ax, deco = axes_block(xr, yr, 6.4, 3.6, LEFT * 3.2 + DOWN * 0.15, xticks, yticks, xlabel, ylabel)
+    cs = [polyline(ax, xs, ys, col, 3.2) for xs, ys, col in curves]
+    scene.play(Create(ax), FadeIn(deco), *[Create(c) for c in cs], run_time=2.0)
+    xs, ys = dots
+    d = VGroup(*[Dot(ax.c2p(float(x), float(y)), radius=0.05, color=NUMERIC) for x, y in list(zip(xs, ys))[::dot_every]])
+    leg = legend_block(legend, RIGHT * 0.9 + UP * 2.0)
+    scene.play(LaggedStart(*[FadeIn(q, scale=1.4) for q in d], lag_ratio=0.04), FadeIn(leg), run_time=2.0)
+    tab = mono_table(table[0], table[1], size=15, colors=[MUTED, NUMERIC, ANALYTIC][: len(table[0])], gap=0.3)
+    tab.move_to(table_pos if table_pos is not None else RIGHT * 4.4 + DOWN * 0.3)
+    scene.say(final, FadeIn(tab), run_time=1.3)
+    scene.wait(2.5)

@@ -50,7 +50,7 @@ Avance: 25 de 25 capítulos.
 
 ## Volumen 2: Electromagnetismo, óptica y física cuántica
 
-Avance: 7 de 25 capítulos.
+Avance: 14 de 25 capítulos.
 
 
 ### Electromagnetismo
@@ -64,13 +64,13 @@ Avance: 7 de 25 capítulos.
 | 5 | Capacitancia y dieléctricos | Capacitores, serie y paralelo, energía almacenada | Publicado |
 | 6 | Corriente y resistencia | Ley de Ohm, modelos de conducción | Publicado |
 | 7 | Circuitos de corriente directa | Leyes de Kirchhoff, circuitos RC, fem | Publicado |
-| 8 | El campo magnético | Fuerza magnética, efecto Hall, movimiento de cargas | Planificado |
-| 9 | Campo magnético de una corriente | Ley de Biot-Savart, ley de Ampère | Planificado |
-| 10 | Ley de inducción de Faraday | Flujo magnético, ley de Lenz, fem inducida | Planificado |
-| 11 | Inductancia | Autoinductancia, circuitos RL, oscilaciones LC | Planificado |
-| 12 | Propiedades magnéticas de la materia | Dipolos, dia, para y ferromagnetismo; ley de Gauss del magnetismo | Planificado |
-| 13 | Circuitos de corriente alterna | Fasores, circuitos RLC, resonancia, transformadores | Planificado |
-| 14 | Ecuaciones de Maxwell y ondas electromagnéticas | Corriente de desplazamiento, espectro, vector de Poynting | Planificado |
+| 8 | El campo magnético | Fuerza magnética, efecto Hall, movimiento de cargas | Publicado |
+| 9 | Campo magnético de una corriente | Ley de Biot-Savart, ley de Ampère | Publicado |
+| 10 | Ley de inducción de Faraday | Flujo magnético, ley de Lenz, fem inducida | Publicado |
+| 11 | Inductancia | Autoinductancia, circuitos RL, oscilaciones LC | Publicado |
+| 12 | Propiedades magnéticas de la materia | Dipolos, dia, para y ferromagnetismo; ley de Gauss del magnetismo | Publicado |
+| 13 | Circuitos de corriente alterna | Fasores, circuitos RLC, resonancia, transformadores | Publicado |
+| 14 | Ecuaciones de Maxwell y ondas electromagnéticas | Corriente de desplazamiento, espectro, vector de Poynting | Publicado |
 
 ### Óptica
 
