@@ -57,7 +57,7 @@ def _yee() -> dict:
         ],
         analytic_steps=[
             ("Escribir las dos ecuaciones en el vacío", "Para una onda con $\\vec E = E_z(x,t)\\hat z$ y $\\vec B = B_y(x,t)\\hat y$ los rotacionales se reducen a derivadas en $x$ y las ecuaciones de Faraday y de Ampère-Maxwell (con $\\vec J = 0$) quedan acopladas.",
-             [r"\dfrac{\partial B_y}{\partial t} = \dfrac{\partial E_z}{\partial x},\qquad \dfrac{\partial E_z}{\partial t} = \dfrac{1}{\mu_0\varepsilon_0}\,\dfrac{\partial B_y}{\partial x}\cdot(-1)"]),
+             [r"\dfrac{\partial B_y}{\partial t} = \dfrac{\partial E_z}{\partial x},\qquad \dfrac{\partial E_z}{\partial t} = \dfrac{1}{\mu_0\varepsilon_0}\,\dfrac{\partial B_y}{\partial x}"]),
             ("Eliminar un campo", "Se deriva la primera respecto de $t$, la segunda respecto de $x$, y se sustituye una en la otra. Queda una sola ecuación para $E_z$.",
              [r"\dfrac{\partial^2 E_z}{\partial t^2} = \dfrac{1}{\mu_0\varepsilon_0}\,\dfrac{\partial^2 E_z}{\partial x^2}"]),
             ("Identificar la velocidad de la onda", "Esta es la ecuación de onda $\\partial_t^2 f = v^2\\partial_x^2 f$, de modo que el coeficiente que multiplica a la derivada espacial es $v^2$.",
@@ -398,7 +398,7 @@ def _twolens() -> dict:
     return dict(
         explanation=[
             "Un sistema de dos lentes se resuelve en cadena: la imagen que forma la primera lente actúa como objeto de la segunda. La única precaución es la posición de ese objeto intermedio. Si la imagen intermedia cae más allá de la segunda lente, el objeto es virtual y su distancia se toma negativa en la ecuación de las lentes.",
-            "El aumento total es el producto de los aumentos de cada etapa, $m = m_1 m_2$. Que $m$ sea positivo significa que la imagen final está derecha respecto del objeto original (dos inversiones se cancelan).",
+            "El aumento total es el producto de los aumentos de cada etapa, $m = m_1 m_2$. El signo de $m$ indica la orientación: $m>0$ es una imagen derecha y $m<0$ una invertida. Con los datos de esta escena $m<0$, de modo que la imagen final está invertida respecto del objeto.",
             "El método matricial codifica la misma física con matrices $2\\times2$ que actúan sobre el vector $(y,\\theta)$, altura y pendiente del rayo. Propagar una distancia $d$ es $\\begin{pmatrix}1&d\\\\0&1\\end{pmatrix}$ y pasar por una lente delgada es $\\begin{pmatrix}1&0\\\\-1/f&1\\end{pmatrix}$. La matriz de todo el sistema se obtiene multiplicando en orden inverso al del recorrido.",
             "El plano imagen es aquel donde la altura final no depende de la pendiente inicial del rayo, es decir donde el elemento $B$ de la matriz total vale cero. En ese plano el elemento $A$ es el aumento lateral.",
         ],

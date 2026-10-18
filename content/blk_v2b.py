@@ -63,7 +63,7 @@ def _ch9() -> Chapter:
         analytic=[(rf"B_\infty=\mu_0nI={m9.solenoid_center_infinite()*1e3:.4f}\ \mathrm{{mT}}", "Límite infinito."), (rf"B(0)={be*1e3:.4f}\ \mathrm{{mT}}", "Solenoide finito, centro.")],
         numeric_method="Biot-Savart sobre las 500 espiras, cada una con 60 segmentos, evaluado en puntos del eje.",
         rows=[Row("B(0)", "B", be * 1e3, m9.solenoid_axis_numeric(0.0) * 1e3, "mT", 3), Row("B en el extremo", "B", float(m9.solenoid_axis_exact(0.25)) * 1e3, m9.solenoid_axis_numeric(0.25) * 1e3, "mT", 3)],
-        notes=["La discretización de cada espira en 60 segmentos introduce un error sistemático del orden de 0.2 %, visible en la tercera cifra."],
+        notes=["La discretización de cada espira en 60 segmentos introduce un error sistemático de unos 0.09 % en el centro, visible en la tercera cifra."],
     )
     return Chapter(number=9, volume=2, part=PART, slug="v2ch09", module="v2ch09_biot_savart", title="Campo magnético de una corriente",
                    summary="Ley de Biot-Savart, ley de Ampère y campos de espiras, hilos y solenoides.",

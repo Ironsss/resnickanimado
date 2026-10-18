@@ -150,7 +150,7 @@ def _drude() -> dict:
          [r"[\sigma]=\mathrm{S/m}=\mathrm{A/(V\,m)},\qquad[\mu]=\mathrm{m^2/(V\,s)}"]),
         ("Intuición y analogías",
          r"Un electrón de conducción se mueve con velocidades térmicas enormes (del orden de $10^5$-$10^6$ m/s) pero en direcciones aleatorias, así que su promedio es nulo. El campo agrega un sesgo diminuto: entre choques el electrón acelera de manera uniforme y en cada choque pierde la memoria de su velocidad. La imagen es la de una bola de pinball que rebota en clavijas mientras la mesa está ligeramente inclinada: avanza lento hacia abajo aunque su rapidez instantánea sea alta.",
-         [r"v_d\ll v_{térm}"]),
+         [r"v_d\ll v_{th}"]),
         ("Hipótesis del modelo",
          r"Se supone que (i) entre colisiones el electrón obedece la mecánica newtoniana bajo la fuerza $-e\vec E$, sin interacciones con otros electrones ni con los iones; (ii) las colisiones son instantáneas y ocurren con probabilidad $dt/\tau$ en cada intervalo $dt$, sin memoria; (iii) tras cada colisión la velocidad es aleatoria con promedio nulo, y no depende del campo. Estas hipótesis definen un proceso de Poisson. El campo $\vec E$ se supone uniforme y estático.",
          [r"m\dfrac{d\vec v}{dt}=-e\vec E\quad\text{(entre colisiones)},\qquad P(\text{choque en }dt)=\dfrac{dt}{\tau}"]),
@@ -178,9 +178,9 @@ def _drude() -> dict:
          rf"Para cobre con $n={sci(n,3)}\ \mathrm{{m^{{-3}}}}$, $\tau={sci(tau,3)}$ s y $E={e_f:.0f}$ V/m, se evalúan las fórmulas generales. La movilidad coincide con la que la simulación de Monte Carlo busca verificar (a un campo mayor, pues el modelo es lineal). La rapidez de deriva resulta mucho menor que la térmica, como pide la hipótesis del modelo.",
          [rf"\mu=\dfrac{{({sci(E_CH,5)})({sci(tau,3)})}}{{{sci(M_E,5)}}}={sci(mu,4)}\ \mathrm{{m^2/(V\,s)}}",
           rf"v_d=\mu E={sci(vd,4)}\ \mathrm{{m/s}},\qquad\sigma=ne\mu={sci(sig,4)}\ \mathrm{{S/m}},\qquad\rho={sci(rho,4)}\ \Omega\cdot\mathrm{{m}}",
-          rf"J=nev_d={sci(j,3)}\ \mathrm{{A/m^2}},\qquad v_{{térm}}=\sqrt{{3k_BT/m}}={sci(vth,3)}\ \mathrm{{m/s}},\qquad\dfrac{{v_d}}{{v_{{térm}}}}={sci(vd/vth,2)}"]),
+          rf"J=nev_d={sci(j,3)}\ \mathrm{{A/m^2}},\qquad v_{{th}}=\sqrt{{3k_BT/m}}={sci(vth,3)}\ \mathrm{{m/s}},\qquad\dfrac{{v_d}}{{v_{{th}}}}={sci(vd/vth,2)}"]),
         ("Errores comunes y límites de validez",
-         rf"No debe confundirse la velocidad de deriva ({sci(vd,2)} m/s, menos de un metro por segundo) con la velocidad con que se propaga la señal, cercana a la de la luz, ni con la velocidad térmica. El tiempo $\tau$ no es un tiempo fijo entre choques, sino la media de una distribución exponencial. El modelo clásico falla porque los electrones obedecen la estadística de Fermi-Dirac: solo participan los cercanos a la superficie de Fermi ($v_F\sim10^6$ m/s), y el camino libre real en cobre a 300 K es de decenas de nanómetros y no de unos pocos, como daría $v_{{térm}}\tau={mfp*1e9:.1f}$ nm. Además $\tau$ depende de la temperatura y de las impurezas (regla de Matthiessen).",
+         rf"No debe confundirse la velocidad de deriva ({sci(vd,2)} m/s, menos de un metro por segundo) con la velocidad con que se propaga la señal, cercana a la de la luz, ni con la velocidad térmica. El tiempo $\tau$ no es un tiempo fijo entre choques, sino la media de una distribución exponencial. El modelo clásico falla porque los electrones obedecen la estadística de Fermi-Dirac: solo participan los cercanos a la superficie de Fermi ($v_F\sim10^6$ m/s), y el camino libre real en cobre a 300 K es de decenas de nanómetros y no de unos pocos, como daría $v_{{th}}\tau={mfp*1e9:.1f}$ nm. Además $\tau$ depende de la temperatura y de las impurezas (regla de Matthiessen).",
          [r"\rho(T)=\rho_{\text{imp}}+\rho_{\text{fonones}}(T),\qquad\ell=v_F\tau"]),
     ]
     return dict(concept=concept)
