@@ -7,6 +7,8 @@ Visualización con [Manim](https://www.manim.community/) [10] de los temas de *F
 
 **Sitio:** <https://ironsss.github.io/resnickanimado/>
 
+**Autor:** David Alexis García Espinosa · [LinkedIn](https://www.linkedin.com/in/davidalexisge) · [Perfil en la Facultad de Ciencias, UNAM](https://www.fciencias.unam.mx/directorio/93391)
+
 ![Página de inicio del sitio](docs/img/sitio-inicio.png)
 
 ## Contenido
@@ -221,7 +223,7 @@ Si usa este material, cite el proyecto y, para el contenido de referencia, el te
 ```bibtex
 @software{resnickanimado,
   title  = {Resnick animado: visualizaciones con Manim y verificaci{\'o}n num{\'e}rica},
-  author = {{Contribuyentes de resnickanimado}},
+  author = {García Espinosa, David Alexis},
   year   = {2026},
   url    = {https://github.com/Ironsss/resnickanimado},
   note   = {Licencia MIT}

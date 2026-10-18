@@ -120,6 +120,7 @@ def page(title: str, body: str, base: str, description: str, current: str = "") 
 </main>
 <footer class="site-footer">
   <div class="container">
+    <p>Autor: <strong>David Alexis García Espinosa</strong> &middot; <a href="https://www.linkedin.com/in/davidalexisge" rel="noopener">LinkedIn</a> &middot; <a href="https://www.fciencias.unam.mx/directorio/93391" rel="noopener">Perfil en la Facultad de Ciencias, UNAM</a></p>
     <p>Proyecto abierto bajo licencia MIT. Los enunciados y las soluciones son originales y se basan en los temas del índice de <em>Física</em>, vol. 1, de Resnick, Halliday y Krane. No se reproduce texto, figuras ni problemas del libro.</p>
     <p>Animaciones generadas con <a href="https://www.manim.community/">Manim Community</a>. Código y datos en <a href="{REPO_URL}">el repositorio</a>.</p>
   </div>

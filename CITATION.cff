@@ -3,7 +3,9 @@ message: "Si usa este material, cite el proyecto y el texto de referencia (Resni
 title: "Resnick animado: visualizaciones con Manim y verificación numérica"
 type: software
 authors:
-  - name: "Contribuyentes de resnickanimado"
+  - family-names: "García Espinosa"
+    given-names: "David Alexis"
+    website: "https://www.fciencias.unam.mx/directorio/93391"
 repository-code: "https://github.com/Ironsss/resnickanimado"
 url: "https://ironsss.github.io/resnickanimado/"
 license: MIT
