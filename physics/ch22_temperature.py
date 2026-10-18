@@ -8,7 +8,7 @@ from .integrators import integrate, rk4_step
 # ------------------------------------------------------------- dilatacion termica
 L0 = 30.0  # m
 ALPHA0 = 12e-6  # 1/K
-BETA = 2.0e-3  # 1/K^2: alpha(T) = alpha0 (1 + beta (T - T0))
+BETA = 2.0e-3  # 1/K: alpha(T) = alpha0 (1 + beta (T - T0))
 T0, T1 = 20.0, 120.0  # grados Celsius
 
 
