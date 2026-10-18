@@ -37,6 +37,9 @@ class Scene:
     explanation: list[str] = field(default_factory=list)  # el tema, en parrafos
     analytic_steps: list[Step] = field(default_factory=list)  # solucion analitica paso a paso
     numeric_steps: list[Step] = field(default_factory=list)  # metodo numerico a mano, con cifras
+    numeric_intro: list[str] = field(default_factory=list)  # que es el metodo, por que funciona, orden del error
+    numeric_code: str = ""  # pseudocodigo / codigo esencial del algoritmo
+    numeric_converge: list[Step] = field(default_factory=list)  # estudio de convergencia y fuentes de error
 
 
 @dataclass(frozen=True)

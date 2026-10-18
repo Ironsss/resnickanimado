@@ -297,3 +297,7 @@ pre.cmd code { white-space: pre-wrap; word-break: break-all; flex: 1 1 14rem; }
 @media (max-width: 760px) {
   .dstep .eq, .step > div:first-child { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 22px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 22px), transparent); }
 }
+
+h4.sub { margin: 1.4rem 0 0.5rem; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted-foreground); }
+.algo { max-width: 100%; overflow-x: auto; padding: 0.9rem 1rem; background: var(--muted, var(--accent)); border: 1px solid var(--border); border-radius: var(--radius); font-size: 12.5px; line-height: 1.6; white-space: pre; -webkit-overflow-scrolling: touch; }
+.algo code { white-space: pre; }

@@ -155,6 +155,22 @@ def detail_steps_html(steps) -> str:
     return f'<ol class="dsteps">{items}</ol>'
 
 
+def numeric_html(scene: Scene) -> str:
+    intro = "".join(f'<p class="explain">{e(t)}</p>' for t in scene.numeric_intro)
+    if intro:
+        intro = f'<h4 class="sub">Qué es el método y por qué funciona</h4>{intro}'
+    code = ""
+    if scene.numeric_code:
+        code = f'<h4 class="sub">El algoritmo, línea por línea</h4><pre class="algo"><code>{e(scene.numeric_code)}</code></pre>'
+    steps = ""
+    if scene.numeric_steps:
+        steps = '<h4 class="sub">Hecho a mano, paso a paso</h4>' + detail_steps_html(scene.numeric_steps)
+    conv = ""
+    if scene.numeric_converge:
+        conv = '<h4 class="sub">Cuánto error esperar y cómo se controla</h4>' + detail_steps_html(scene.numeric_converge)
+    return intro + code + steps + conv
+
+
 def rows_html(rows: list[Row]) -> str:
     body = "".join(
         f'<tr><td data-label="Magnitud">{e(r.label)}</td><td data-label="Símbolo">${e(r.tex)}$</td>'
@@ -181,7 +197,7 @@ def scene_html(scene: Scene, chapter: Chapter, idx: int, base: str, media: dict)
   <div class="step-block"><h3><span class="eyebrow">01</span> El tema y sus fundamentos</h3>{explain}{steps_html(scene.foundations)}</div>
   <div class="step-block"><h3><span class="eyebrow">02</span> Solución analítica{" paso a paso" if scene.analytic_steps else ""}</h3>{steps_html(scene.analytic)}{detail_steps_html(scene.analytic_steps) if scene.analytic_steps else ""}</div>
   <div class="step-block"><h3><span class="eyebrow">03</span> Solución numérica{" paso a paso" if scene.numeric_steps else ""}</h3>
-    <p class="method">{e(scene.numeric_method)}</p>{detail_steps_html(scene.numeric_steps) if scene.numeric_steps else ""}
+    <p class="method">{e(scene.numeric_method)}</p>{numeric_html(scene)}
   </div>
   <div class="step-block"><h3><span class="eyebrow">04</span> Verificación</h3>
     {rows_html(scene.rows)}{notes}

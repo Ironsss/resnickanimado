@@ -423,11 +423,12 @@ def _clean(d: dict) -> dict:
         return t.replace("\\,^\\circ", "\\,{}^\\circ")
 
     out = dict(d)
-    for key in ("analytic_steps", "numeric_steps"):
+    for key in ("analytic_steps", "numeric_steps", "numeric_converge"):
         if key in out:
             out[key] = [(a, prose(b), [prose(fix(t)) for t in eqs]) for a, b, eqs in out[key]]
-    if "explanation" in out:
-        out["explanation"] = [prose(t) for t in out["explanation"]]
+    for key in ("explanation", "numeric_intro"):
+        if key in out:
+            out[key] = [prose(t) for t in out[key]]
     return out
 
 
@@ -442,7 +443,8 @@ def _with_detail(chapters: list[Chapter]) -> list[Chapter]:
     detail: dict[str, dict] = {}
     for mod in pkgutil.iter_modules(content.__path__):
         if mod.name.startswith("detail_"):
-            detail.update(importlib.import_module(f"content.{mod.name}").DETAIL)
+            for sid, d in importlib.import_module(f"content.{mod.name}").DETAIL.items():
+                detail.setdefault(sid, {}).update(d)
     out = []
     for ch in chapters:
         scenes = [dataclasses.replace(s, **_clean(detail[s.id])) if s.id in detail else s for s in ch.scenes]
