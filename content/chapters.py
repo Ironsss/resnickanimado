@@ -419,7 +419,12 @@ def _clean(d: dict) -> dict:
         t = re.sub(r"(\^\{-?\d+\})\^\\circ", r"\1\\,{}^\\circ", t)
         return re.sub(r"\\begin\{pmatrix\}([^&]*?)\\\\ ?([^&\\\\]*?)\\end\{pmatrix\}", r"(\1,\\ \2)", t)
 
+    ctrl = {"\x07": "\\a", "\x08": "\\b", "\x0c": "\\f", "\t": "\\t", "\x0b": "\\v", "\r": "\\r"}
+
     def prose(t: str) -> str:
+        for c, rep in ctrl.items():  # barras invertidas que Python convirtio en caracteres de control (p. ej. "\approx")
+            t = t.replace(c, rep)
+        t = re.sub(r"(\^\{-?\d+\})\^\\circ", r"\1\\,{}^\\circ", t)
         return t.replace("\\,^\\circ", "\\,{}^\\circ")
 
     out = dict(d)
