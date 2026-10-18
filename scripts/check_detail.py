@@ -34,6 +34,8 @@ def main() -> int:
                 probs.append("pasos analiticos < 4")
             if len(s.numeric_steps) < 4:
                 probs.append("pasos numericos < 4")
+            if len(s.concept) < 5:
+                probs.append("concept < 5 secciones")
             if len(s.numeric_intro) < 3:
                 probs.append("numeric_intro < 3 parrafos")
             if len([l for l in s.numeric_code.splitlines() if l.strip()]) < 6:
@@ -43,7 +45,7 @@ def main() -> int:
             for p_ in s.numeric_intro:
                 if p_.count("$") % 2:
                     probs.append("$ desbalanceado en numeric_intro")
-            for kind, steps in (("analitico", s.analytic_steps), ("numerico", s.numeric_steps), ("convergencia", s.numeric_converge)):
+            for kind, steps in (("analitico", s.analytic_steps), ("numerico", s.numeric_steps), ("convergencia", s.numeric_converge), ("concepto", s.concept)):
                 for i, st in enumerate(steps, 1):
                     if len(st) != 3 or not st[0] or not st[1] or not st[2]:
                         probs.append(f"{kind} {i}: paso mal formado")

@@ -423,7 +423,7 @@ def _clean(d: dict) -> dict:
         return t.replace("\\,^\\circ", "\\,{}^\\circ")
 
     out = dict(d)
-    for key in ("analytic_steps", "numeric_steps", "numeric_converge"):
+    for key in ("analytic_steps", "numeric_steps", "numeric_converge", "concept"):
         if key in out:
             out[key] = [(a, prose(b), [prose(fix(t)) for t in eqs]) for a, b, eqs in out[key]]
     for key in ("explanation", "numeric_intro"):
