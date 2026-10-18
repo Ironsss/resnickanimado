@@ -9,7 +9,8 @@ def sci(x: float, d: int = 4) -> str:
     if x == 0:
         return "0"
     if 1e-2 <= abs(x) < 1e4:
-        return f"{x:.{d}g}" if abs(x) >= 1 else f"{x:.{d}f}".rstrip("0").rstrip(".")
+        dec = max(d - 1 - math.floor(math.log10(abs(x))), 0)  # d cifras significativas, sin notacion e
+        return f"{x:.{dec}f}"
     m, e = f"{x:.{d - 1}e}".split("e")
     return f"{m}\\times10^{{{int(e)}}}"
 

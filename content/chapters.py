@@ -411,6 +411,26 @@ def load_chapters() -> list[Chapter]:
     return _with_detail(chapters)
 
 
+def _clean(d: dict) -> dict:
+    """Ajustes de TeX para KaTeX: doble superindice antes de grados y vectores columna como pares."""
+    import re
+
+    def fix(t: str) -> str:
+        t = re.sub(r"(\^\{-?\d+\})\^\\circ", r"\1\\,{}^\\circ", t)
+        return re.sub(r"\\begin\{pmatrix\}([^&]*?)\\\\ ?([^&\\\\]*?)\\end\{pmatrix\}", r"(\1,\\ \2)", t)
+
+    def prose(t: str) -> str:
+        return t.replace("\\,^\\circ", "\\,{}^\\circ")
+
+    out = dict(d)
+    for key in ("analytic_steps", "numeric_steps"):
+        if key in out:
+            out[key] = [(a, prose(b), [prose(fix(t)) for t in eqs]) for a, b, eqs in out[key]]
+    if "explanation" in out:
+        out["explanation"] = [prose(t) for t in out["explanation"]]
+    return out
+
+
 def _with_detail(chapters: list[Chapter]) -> list[Chapter]:
     """Incorpora la explicacion del tema y las soluciones paso a paso de los modulos `detail_*` (dict DETAIL por id de escena)."""
     import dataclasses
@@ -425,6 +445,6 @@ def _with_detail(chapters: list[Chapter]) -> list[Chapter]:
             detail.update(importlib.import_module(f"content.{mod.name}").DETAIL)
     out = []
     for ch in chapters:
-        scenes = [dataclasses.replace(s, **detail[s.id]) if s.id in detail else s for s in ch.scenes]
+        scenes = [dataclasses.replace(s, **_clean(detail[s.id])) if s.id in detail else s for s in ch.scenes]
         out.append(dataclasses.replace(ch, scenes=scenes))
     return out
