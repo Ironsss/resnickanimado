@@ -7,6 +7,8 @@ from __future__ import annotations
 
 import argparse
 import html
+import json
+import re
 import shutil
 import subprocess
 import sys
@@ -22,8 +24,7 @@ from content.references import REFERENCES  # noqa: E402
 
 REPO_URL = "https://github.com/ironsss/resnickanimado"
 KATEX = "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist"
-FONTS = ("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700"
-         "&family=JetBrains+Mono:wght@400;500&display=swap")
+FONTS = ("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@400&display=swap")
 LOGO = ('<svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/>'
         '<path d="M7 22 Q 16 4 25 22" fill="none" stroke="var(--background)" stroke-width="2.4" stroke-linecap="round"/>'
         '<circle cx="16" cy="9.5" r="2.4" fill="var(--background)"/></svg>')
@@ -67,6 +68,60 @@ def fmt_duration(sec: float | None) -> str:
 
 
 # ------------------------------------------------------------------- plantilla
+PRERENDER = False  # se activa en main() si node y katex estan disponibles
+
+
+def math_head(base: str) -> str:
+    """Con formulas pre-renderizadas solo hace falta el CSS local de KaTeX; si no, se cargan los scripts del CDN."""
+    if PRERENDER:
+        return f'<link rel="stylesheet" href="{base}assets/katex/katex.min.css">'
+    return (f'<link rel="stylesheet" href="{KATEX}/katex.min.css">\n<script defer src="{KATEX}/katex.min.js"></script>\n'
+            f'<script defer src="{KATEX}/contrib/auto-render.min.js"></script>')
+
+
+_SKIP = re.compile(r"(<pre\b.*?</pre>|<script\b.*?</script>|<style\b.*?</style>)", re.S)
+_DISPLAY = re.compile(r"\$\$(.+?)\$\$", re.S)
+_INLINE = re.compile(r"\$([^$\n]+?)\$")
+
+
+def prerender_math(doc: str) -> str:
+    """Sustituye $$...$$ y $...$ por el HTML de KaTeX (un solo proceso node por pagina)."""
+    parts = _SKIP.split(doc)
+    items: list[dict] = []
+
+    def collect(text: str) -> str:
+        def grab(display: bool):
+            def repl(m):
+                items.append({"tex": html.unescape(m.group(1)), "display": display})
+                return f"\x00M{len(items) - 1}\x00"
+            return repl
+        text = _DISPLAY.sub(grab(True), text)
+        return _INLINE.sub(grab(False), text)
+
+    parts = [p if i % 2 else collect(p) for i, p in enumerate(parts)]
+    if not items:
+        return "".join(parts)
+    res = subprocess.run(["node", str(ROOT / "scripts" / "katex_render.mjs")], input=json.dumps(items), capture_output=True, text=True, check=True)
+    rendered = json.loads(res.stdout)
+    text = "".join(parts)
+    return re.sub(r"\x00M(\d+)\x00", lambda m: rendered[int(m.group(1))], text)
+
+
+def katex_available() -> bool:
+    return (ROOT / "node_modules" / "katex" / "dist" / "katex.min.css").exists() and shutil.which("node") is not None
+
+
+def copy_katex_assets(out: Path) -> None:
+    src = ROOT / "node_modules" / "katex" / "dist"
+    dest = out / "assets" / "katex"
+    (dest / "fonts").mkdir(parents=True, exist_ok=True)
+    css = (src / "katex.min.css").read_text(encoding="utf-8")
+    css = re.sub(r',url\(fonts/[^)]+\.woff\) format\("woff"\),url\(fonts/[^)]+\.ttf\) format\("truetype"\)', "", css)  # solo woff2
+    (dest / "katex.min.css").write_text(css, encoding="utf-8")
+    for f in (src / "fonts").glob("*.woff2"):
+        shutil.copy(f, dest / "fonts" / f.name)
+
+
 def page(title: str, body: str, base: str, description: str, current: str = "") -> str:
     def nav(href: str, label: str, key: str, cls: str = "") -> str:
         cur = ' aria-current="page"' if current == key else ""
@@ -85,10 +140,8 @@ def page(title: str, body: str, base: str, description: str, current: str = "") 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="{FONTS}">
-<link rel="stylesheet" href="{KATEX}/katex.min.css">
+{math_head(base)}
 <link rel="stylesheet" href="{base}assets/style.css">
-<script defer src="{KATEX}/katex.min.js"></script>
-<script defer src="{KATEX}/contrib/auto-render.min.js"></script>
 <script defer src="{base}assets/app.js"></script>
 </head>
 <body>
@@ -366,6 +419,7 @@ def main() -> None:
     ap.add_argument("--media-dir", default=str(ROOT / "media" / "videos"))
     ap.add_argument("--quality", default="1080p30")
     ap.add_argument("--out", default=str(ROOT / "public"))
+    ap.add_argument("--client-math", action="store_true", help="no pre-renderizar las formulas")
     args = ap.parse_args()
 
     out = Path(args.out)
@@ -375,12 +429,20 @@ def main() -> None:
     shutil.copytree(ROOT / "web" / "assets", out / "assets")
     (out / ".nojekyll").write_text("")
 
+    global PRERENDER
+    PRERENDER = katex_available() and not args.client_math
+    if PRERENDER:
+        copy_katex_assets(out)
+    else:
+        print("aviso: sin node/katex; las formulas se renderizaran en el navegador (mas lento)")
+    finish = prerender_math if PRERENDER else (lambda t: t)
+
     chapters = load_chapters()
     media = collect_media(chapters, Path(args.media_dir), args.quality, out)
-    (out / "index.html").write_text(index_page(chapters, media), encoding="utf-8")
+    (out / "index.html").write_text(finish(index_page(chapters, media)), encoding="utf-8")
     for ch in chapters:
-        (out / "chapters" / f"{ch.slug}.html").write_text(chapter_page(ch, chapters, media), encoding="utf-8")
-    print(f"sitio generado en {out} ({len(media)} videos)")
+        (out / "chapters" / f"{ch.slug}.html").write_text(finish(chapter_page(ch, chapters, media)), encoding="utf-8")
+    print(f"sitio generado en {out} ({len(media)} videos; formulas {'pre-renderizadas' if PRERENDER else 'en el navegador'})")
 
 
 if __name__ == "__main__":

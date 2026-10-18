@@ -1,0 +1,8 @@
+{
+  "name": "resnickanimado",
+  "private": true,
+  "description": "Dependencias de construccion del sitio: KaTeX para pre-renderizar las formulas.",
+  "dependencies": {
+    "katex": "0.16.9"
+  }
+}
