@@ -448,7 +448,7 @@ def _with_detail(chapters: list[Chapter]) -> list[Chapter]:
     detail: dict[str, dict] = {}
     for mod in pkgutil.iter_modules(content.__path__):
         if mod.name.startswith("detail_"):
-            for sid, d in importlib.import_module(f"content.{mod.name}").DETAIL.items():
+            for sid, d in getattr(importlib.import_module(f"content.{mod.name}"), "DETAIL", {}).items():
                 detail.setdefault(sid, {}).update(d)
     out = []
     for ch in chapters:
