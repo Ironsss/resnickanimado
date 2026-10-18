@@ -31,9 +31,9 @@ Visualización con [Manim](https://www.manim.community/) [10] de los temas de *F
 
 Cada tema del índice de conceptos del libro [1][2] se resuelve con tres capas:
 
-1. **Fundamentos.** Definiciones y leyes, con su notación.
-2. **Solución analítica.** Deducción en forma cerrada, paso a paso.
-3. **Solución numérica.** Un método independiente cuyo resultado se contrasta con el analítico.
+1. **Fundamentos y concepto.** Definiciones, magnitudes e intuición del tema, con su notación.
+2. **Solución analítica.** Primero el desarrollo general con formalismo matemático (principios variacionales, leyes de conservación, ecuaciones de Maxwell o de Schrödinger, según el tema), que lleva a una fórmula general; después su particularización al problema. El nivel de formalismo en mecánica sigue el del curso de física teórica de Landau y Lifshitz [18]: principio de mínima acción, leyes de conservación, campo central, pequeñas oscilaciones, cuerpo rígido y ecuaciones canónicas.
+3. **Solución numérica.** Un método independiente, explicado a mano y con su estudio de error, cuyo resultado se contrasta con el analítico.
 
 La meta es cubrir los volúmenes 1 y 2. Los números que muestran los videos y el sitio se calculan con las mismas funciones que se prueban automáticamente: si el método numérico y la solución exacta divergen más allá de la tolerancia esperada, las pruebas fallan.
 
@@ -214,7 +214,9 @@ El sitio y los videos comparten un sistema visual sobrio inspirado en [shadcn/ui
 
 [17] FFmpeg. <https://ffmpeg.org/>
 
-Los datos bibliográficos de [1], [2] y [3] (ISBN y año) se contrastaron con catálogos bibliotecarios y con el catálogo del editor. El ISBN de una reimpresión concreta puede diferir; compruebe el de su ejemplar. Las referencias [4] a [9] y [11] a [17] se citan según su publicación original o sitio oficial.
+[18] L. D. Landau y E. M. Lifshitz, *Mechanics*, Course of Theoretical Physics, vol. 1, 3.ª ed. Oxford: Butterworth-Heinemann, 1976. ISBN 978-0-7506-2896-9. Referencia del formalismo del desarrollo analítico general.
+
+Los datos bibliográficos de [1], [2] y [3] (ISBN y año) se contrastaron con catálogos bibliotecarios y con el catálogo del editor. El ISBN de una reimpresión concreta puede diferir; compruebe el de su ejemplar. Las referencias [4] a [9] y [11] a [18] se citan según su publicación original o sitio oficial.
 
 ## Cómo citar
 

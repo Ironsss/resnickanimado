@@ -8,6 +8,8 @@ REFERENCES = [
          "Índice de temas del volumen 2."),
         ("R. Resnick, D. Halliday y K. S. Krane, <em>Física</em>, vol. 1, 4.ª ed. en español. México: Compañía Editorial Continental, 2002. ISBN 970-24-0257-3.",
          "Edición en español para contrastar títulos de temas."),
+        ("L. D. Landau y E. M. Lifshitz, <em>Mechanics</em>, Course of Theoretical Physics, vol. 1, 3.ª ed. Oxford: Butterworth-Heinemann, 1976. ISBN 978-0-7506-2896-9.",
+         "Referencia del formalismo del desarrollo analítico general (lagrangiano y hamiltoniano)."),
     ]),
     ("Métodos", [
         ("C. Runge, «Über die numerische Auflösung von Differentialgleichungen», <em>Mathematische Annalen</em>, 46, 167-178, 1895.", "Integración RK4."),

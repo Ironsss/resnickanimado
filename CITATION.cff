@@ -45,6 +45,18 @@ references:
       name: "John Wiley & Sons"
     year: 2002
     isbn: "978-0-471-40194-0"
+  - type: book
+    authors:
+      - family-names: Landau
+        given-names: "L. D."
+      - family-names: Lifshitz
+        given-names: "E. M."
+    title: "Mechanics (Course of Theoretical Physics, vol. 1)"
+    edition: "3"
+    publisher:
+      name: "Butterworth-Heinemann"
+    year: 1976
+    isbn: "978-0-7506-2896-9"
   - type: software
     authors:
       - name: "The Manim Community Developers"
