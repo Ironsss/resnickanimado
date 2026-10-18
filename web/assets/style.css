@@ -256,3 +256,14 @@ pre.cmd code { white-space: pre-wrap; word-break: break-all; flex: 1 1 14rem; }
 .site-footer p { margin: 0; max-width: 52rem; }
 
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+
+/* Explicacion y soluciones paso a paso */
+.explain { max-width: 46rem; margin: 0 0 0.9rem; line-height: 1.7; }
+.dsteps { list-style: none; counter-reset: dstep; margin: 1rem 0 0; padding: 0; display: grid; gap: 1.1rem; }
+.dstep { counter-increment: dstep; position: relative; padding: 0 0 0 2.6rem; max-width: 46rem; }
+.dstep::before { content: counter(dstep); position: absolute; left: 0; top: 0.1rem; width: 1.8rem; height: 1.8rem; border: 1px solid var(--border); border-radius: 999px; display: grid; place-items: center; font: 500 12px var(--font-mono, ui-monospace, monospace); color: var(--muted-foreground); }
+.dstep h4 { margin: 0 0 0.3rem; font-size: 15px; font-weight: 600; }
+.dstep p { margin: 0 0 0.4rem; color: var(--muted-foreground); line-height: 1.65; }
+.dstep .eq { overflow-x: auto; padding: 0.15rem 0; }
+.dstep .eq .katex-display { margin: 0.35rem 0; }
+@media (max-width: 640px) { .dstep { padding-left: 2.3rem; } }

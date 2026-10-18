@@ -408,4 +408,23 @@ def load_chapters() -> list[Chapter]:
         if mod.name.startswith("blk_"):
             chapters += importlib.import_module(f"content.{mod.name}").chapters()
     chapters.sort(key=lambda c: (c.volume, c.number))
-    return chapters
+    return _with_detail(chapters)
+
+
+def _with_detail(chapters: list[Chapter]) -> list[Chapter]:
+    """Incorpora la explicacion del tema y las soluciones paso a paso de los modulos `detail_*` (dict DETAIL por id de escena)."""
+    import dataclasses
+    import importlib
+    import pkgutil
+
+    import content
+
+    detail: dict[str, dict] = {}
+    for mod in pkgutil.iter_modules(content.__path__):
+        if mod.name.startswith("detail_"):
+            detail.update(importlib.import_module(f"content.{mod.name}").DETAIL)
+    out = []
+    for ch in chapters:
+        scenes = [dataclasses.replace(s, **detail[s.id]) if s.id in detail else s for s in ch.scenes]
+        out.append(dataclasses.replace(ch, scenes=scenes))
+    return out

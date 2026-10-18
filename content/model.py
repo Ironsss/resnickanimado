@@ -20,6 +20,10 @@ class Row:
         return abs(self.analytic - self.numeric)
 
 
+# Paso de una solucion: (titulo, explicacion en prosa, lista de ecuaciones TeX en display)
+Step = tuple[str, str, list[str]]
+
+
 @dataclass(frozen=True)
 class Scene:
     id: str
@@ -30,6 +34,9 @@ class Scene:
     numeric_method: str
     rows: list[Row]
     notes: list[str] = field(default_factory=list)
+    explanation: list[str] = field(default_factory=list)  # el tema, en parrafos
+    analytic_steps: list[Step] = field(default_factory=list)  # solucion analitica paso a paso
+    numeric_steps: list[Step] = field(default_factory=list)  # metodo numerico a mano, con cifras
 
 
 @dataclass(frozen=True)

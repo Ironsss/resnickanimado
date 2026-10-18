@@ -147,6 +147,14 @@ def steps_html(items: list[tuple[str, str]]) -> str:
         f'<div class="step"><div>$${e(tex)}$$</div><div class="cap">{e(cap)}</div></div>' for tex, cap in items)
 
 
+def detail_steps_html(steps) -> str:
+    items = ""
+    for title, text, eqs in steps:
+        eq_html = "".join(f"<div class=\"eq\">$${e(t)}$$</div>" for t in eqs)
+        items += (f'<li class="dstep"><h4>{e(title)}</h4><p>{e(text)}</p>{eq_html}</li>')
+    return f'<ol class="dsteps">{items}</ol>'
+
+
 def rows_html(rows: list[Row]) -> str:
     body = "".join(
         f'<tr><td data-label="Magnitud">{e(r.label)}</td><td data-label="Símbolo">${e(r.tex)}$</td>'
@@ -163,16 +171,17 @@ def rows_html(rows: list[Row]) -> str:
 def scene_html(scene: Scene, chapter: Chapter, idx: int, base: str, media: dict) -> str:
     cmd = f"PYTHONPATH=. manim -qh animations/{chapter.module}.py {scene.id}"
     notes = "".join(f'<p class="note">{e(n)}</p>' for n in scene.notes)
+    explain = "".join(f'<p class="explain">{e(t)}</p>' for t in scene.explanation)
     return f"""
 <section class="scene" id="{scene.id}">
   <div class="eyebrow">Animación {chapter.number}.{idx}</div>
   <h2>{e(scene.title)}</h2>
   <p class="statement">{e(scene.statement)}</p>
   {video_block(scene, chapter, base, media)}
-  <div class="step-block"><h3><span class="eyebrow">01</span> Fundamentos</h3>{steps_html(scene.foundations)}</div>
-  <div class="step-block"><h3><span class="eyebrow">02</span> Solución analítica</h3>{steps_html(scene.analytic)}</div>
-  <div class="step-block"><h3><span class="eyebrow">03</span> Solución numérica</h3>
-    <p class="method">{e(scene.numeric_method)}</p>
+  <div class="step-block"><h3><span class="eyebrow">01</span> El tema y sus fundamentos</h3>{explain}{steps_html(scene.foundations)}</div>
+  <div class="step-block"><h3><span class="eyebrow">02</span> Solución analítica{" paso a paso" if scene.analytic_steps else ""}</h3>{steps_html(scene.analytic)}{detail_steps_html(scene.analytic_steps) if scene.analytic_steps else ""}</div>
+  <div class="step-block"><h3><span class="eyebrow">03</span> Solución numérica{" paso a paso" if scene.numeric_steps else ""}</h3>
+    <p class="method">{e(scene.numeric_method)}</p>{detail_steps_html(scene.numeric_steps) if scene.numeric_steps else ""}
   </div>
   <div class="step-block"><h3><span class="eyebrow">04</span> Verificación</h3>
     {rows_html(scene.rows)}{notes}
